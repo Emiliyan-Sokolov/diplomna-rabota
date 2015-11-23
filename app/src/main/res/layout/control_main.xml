@@ -2,49 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:height="60sp"
-        android:width="150sp"
-        android:text="Left"
-        android:id="@+id/left_btn"
-        android:layout_marginEnd="40dp"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/forward_btn" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:height="60sp"
-        android:width="150sp"
-        android:text="Forward"
+    <ImageButton
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:id="@+id/forward_btn"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp" />
+        android:src="@drawable/arrow_forward"
+        android:background="#0000"
+        android:scaleType="fitCenter"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_marginRight="0dp"
+        android:layout_above="@+id/backward_btn"
+        android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:height="60sp"
-        android:width="150sp"
-        android:text="Right"
-        android:id="@+id/right_btn"
-        android:layout_marginStart="40dp"
-        android:layout_alignTop="@+id/left_btn"
-        android:layout_toEndOf="@+id/forward_btn" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:height="60sp"
-        android:width="150sp"
-        android:text="Backward"
+    <ImageButton
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:id="@+id/backward_btn"
-        android:layout_below="@+id/left_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp" />
+        android:src="@drawable/arrow_reverse"
+        android:background="#0000"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:id="@+id/right_btn"
+        android:src="@drawable/arrow_right"
+        android:background="#0000"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/left_btn" />
+
+    <ImageButton
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:id="@+id/left_btn"
+        android:src="@drawable/arrow_left"
+        android:background="#0000"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

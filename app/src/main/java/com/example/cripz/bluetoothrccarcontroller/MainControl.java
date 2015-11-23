@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 
 public class MainControl extends Activity {
 
@@ -69,10 +70,10 @@ public class MainControl extends Activity {
     }
 
     private void buttonInitialization(){
-        Button forward_button = (Button) findViewById(R.id.forward_btn);
-        Button backward_button = (Button) findViewById(R.id.backward_btn);
-        Button left_button = (Button) findViewById(R.id.left_btn);
-        Button right_button = (Button) findViewById(R.id.right_btn);
+        ImageButton forward_button = (ImageButton) findViewById(R.id.forward_btn);
+        ImageButton backward_button = (ImageButton) findViewById(R.id.backward_btn);
+        ImageButton left_button = (ImageButton) findViewById(R.id.left_btn);
+        ImageButton right_button = (ImageButton) findViewById(R.id.right_btn);
 
         MyTouchListener touchListener = new MyTouchListener();
         forward_button.setOnTouchListener(touchListener);
