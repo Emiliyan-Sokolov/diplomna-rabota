@@ -26,6 +26,10 @@
             android:name="com.example.cripz.bluetoothrccarcontroller.Device"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
+        <activity android:name="com.example.cripz.bluetoothrccarcontroller.MainControl"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape">
+        </activity>
         <service
             android:name="com.example.cripz.bluetoothrccarcontroller.RBLService"
             android:enabled="true" />

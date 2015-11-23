@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +16,11 @@ import android.widget.SimpleAdapter;
 
 public class Device extends Activity implements OnItemClickListener {
 
-    private ArrayList<Map<String, String>> listItems = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> listItems = new ArrayList<>();
     private String DEVICE_NAME = "name";
     private String DEVICE_ADDRESS = "address";
+    public final static String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
+    public final static String EXTRA_DEVICE_NAME = "EXTRA_DEVICE_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,15 @@ public class Device extends Activity implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view,
                             int position, long id) {
-        HashMap<String, String> hashMap = (HashMap<String, String>) listItems
-                .get(position);
+        Map<String, String> hashMap = listItems.get(position);
+
+        String addr = hashMap.get(DEVICE_ADDRESS);
+        String name = hashMap.get(DEVICE_NAME);
+        Intent intent = new Intent(Device.this, MainControl.class);
+        intent.putExtra(EXTRA_DEVICE_ADDRESS, addr);
+        intent.putExtra(EXTRA_DEVICE_NAME, name);
+        startActivity(intent);
+        Main.instance.finish(); // destroy the Main Activity
+        finish(); // destroy Device Activity
     }
 }
