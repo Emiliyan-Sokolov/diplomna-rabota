@@ -17,11 +17,15 @@ import android.os.IBinder;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 
 public class MainControl extends Activity {
+
+    private ImageButton forward_button;
+    private ImageButton reverse_button;
+    private ImageButton left_button;
+    private ImageButton right_button;
 
     private String mDeviceName;
     private String mDeviceAddress;
@@ -70,14 +74,14 @@ public class MainControl extends Activity {
     }
 
     private void buttonInitialization(){
-        ImageButton forward_button = (ImageButton) findViewById(R.id.forward_btn);
-        ImageButton backward_button = (ImageButton) findViewById(R.id.backward_btn);
-        ImageButton left_button = (ImageButton) findViewById(R.id.left_btn);
-        ImageButton right_button = (ImageButton) findViewById(R.id.right_btn);
+        forward_button = (ImageButton) findViewById(R.id.forward_btn);
+        reverse_button = (ImageButton) findViewById(R.id.reverse_btn);
+        left_button = (ImageButton) findViewById(R.id.left_btn);
+        right_button = (ImageButton) findViewById(R.id.right_btn);
 
         MyTouchListener touchListener = new MyTouchListener();
         forward_button.setOnTouchListener(touchListener);
-        backward_button.setOnTouchListener(touchListener);
+        reverse_button.setOnTouchListener(touchListener);
         left_button.setOnTouchListener(touchListener);
         right_button.setOnTouchListener(touchListener);
     }
@@ -159,14 +163,17 @@ public class MainControl extends Activity {
     }
 
     public class MyTouchListener implements OnTouchListener {
+
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch(v.getId()){
+        public boolean onTouch(View v, MotionEvent event) {switch(v.getId()){
                 case R.id.forward_btn:
                     //forward button is called
+                    buttonInitialization();
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        forward_button.setImageResource(R.drawable.btn_forward_clicked);
                         sendMessage("f");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        forward_button.setImageResource(R.drawable.btn_forward);
                         sendMessage("k");
                     }
                     break;
@@ -174,8 +181,10 @@ public class MainControl extends Activity {
                 case R.id.right_btn:
                     //right button is called
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        right_button.setImageResource(R.drawable.btn_right_clicked);
                         sendMessage("r");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        right_button.setImageResource(R.drawable.btn_right);
                         sendMessage("j");
                     }
                     break;
@@ -183,17 +192,21 @@ public class MainControl extends Activity {
                 case R.id.left_btn:
                     //left button is called
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        left_button.setImageResource(R.drawable.btn_left_clicked);
                         sendMessage("l");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        left_button.setImageResource(R.drawable.btn_left);
                         sendMessage("h");
                     }
                     break;
 
-                case R.id.backward_btn:
+                case R.id.reverse_btn:
                     //backward button is called
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        reverse_button.setImageResource(R.drawable.btn_reverse_clicked);
                         sendMessage("b");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        reverse_button.setImageResource(R.drawable.btn_reverse);
                         sendMessage("g");
                     }
                     break;
