@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -19,11 +17,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 public class Main extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SCAN_PERIOD = 3000;
-    private Dialog mDialog;
+    private MaterialDialog mDialog;
     public static ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
     public static Main instance = null;
     @Override
@@ -66,7 +66,7 @@ public class Main extends AppCompatActivity {
 
     private void searchForAvailableDevices() {
         scanLeDevice();
-        showRoundProcessDialog(Main.this, R.layout.loading_process_dialog_anim);
+        showRoundProcessDialog(Main.this);
 
         Timer mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
@@ -81,10 +81,13 @@ public class Main extends AppCompatActivity {
         }, SCAN_PERIOD);
     }
 
-    public void showRoundProcessDialog(Context mContext, int layout) {
-        mDialog = new AlertDialog.Builder(mContext).create();
+    public void showRoundProcessDialog(Context mContext) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
+        builder.content(R.string.progress_dialog);
+        builder.progress(true, 0);
+        builder.cancelable(false);
+        mDialog = builder.build();
         mDialog.show();
-        mDialog.setContentView(layout);
     }
 
     private void scanLeDevice() {
