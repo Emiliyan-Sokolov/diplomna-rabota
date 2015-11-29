@@ -40,7 +40,7 @@ public class Device extends Activity implements OnItemClickListener {
             setTitle("No BLE devices found");
         }
         else {
-            setTitle("Device");
+            setTitle("Devices:");
         }
         SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), listItems,
                 R.layout.list_item, new String[]{"name", "address"},

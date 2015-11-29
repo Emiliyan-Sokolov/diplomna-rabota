@@ -26,6 +26,7 @@ public class Main extends AppCompatActivity {
     private MaterialDialog mDialog;
     public static ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
     public static Main instance = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,9 @@ public class Main extends AppCompatActivity {
         // Initializes Bluetooth adapter.
         final BluetoothManager mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
+
+        //Initializes ProcessDialog
+        buildRoundProcessDialog(instance);
 
         // Checks if Bluetooth is turned on. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
@@ -66,7 +70,7 @@ public class Main extends AppCompatActivity {
 
     private void searchForAvailableDevices() {
         scanLeDevice();
-        showRoundProcessDialog(Main.this);
+        mDialog.show();
 
         Timer mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
@@ -81,13 +85,12 @@ public class Main extends AppCompatActivity {
         }, SCAN_PERIOD);
     }
 
-    public void showRoundProcessDialog(Context mContext) {
+    public void buildRoundProcessDialog(Context mContext) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
         builder.content(R.string.progress_dialog);
         builder.progress(true, 0);
         builder.cancelable(false);
         mDialog = builder.build();
-        mDialog.show();
     }
 
     private void scanLeDevice() {
