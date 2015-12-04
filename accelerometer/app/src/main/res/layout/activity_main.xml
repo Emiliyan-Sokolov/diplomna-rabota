@@ -23,6 +23,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:text="STAY"
-        android:textSize="50dp" />
+        android:textSize="45dp" />
 </RelativeLayout>
 

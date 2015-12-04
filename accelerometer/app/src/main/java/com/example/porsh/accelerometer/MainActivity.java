@@ -59,8 +59,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if(x < x0 - 1){
             state.setText("MOVING_FORWARD");
+            if(y < -1){
+                state.setText("MOVING_FORWARD_LEFT");
+            }else if(y > 1){
+                state.setText("MOVING_FORWARD_RIGHT");
+            }
         }else if(x > x0 + 1){
             state.setText("MOVING_BACKWARD");
+            if(y < -1){
+                state.setText("MOVING_BACKWARD_LEFT");
+            }else if(y > 1){
+                state.setText("MOVING_BACKWARD_RIGHT");
+            }
         }else if(y < -1){
             state.setText("MOVING_LEFT");
         }else if(y > 1){
