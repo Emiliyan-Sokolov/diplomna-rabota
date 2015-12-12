@@ -22,6 +22,15 @@ void setup()
   //   Default pins set to 9 and 8 for REQN and RDYN
   //   Set your REQN and RDYN here before ble_begin() if you need
   //
+ 
+/*     Light Sensor pins
+ 
+        VCC >>> 3.3V
+        SDA >>> A4
+        SCL >>> A5
+        addr >> A3
+        Gnd >>>Gnd
+*/
   
   //ble_set_pins(3, 2);
   
