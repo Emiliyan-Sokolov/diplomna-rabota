@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name="com.example.cripz.bluetoothrccarcontroller.Main" >
+        <activity android:name="com.example.cripz.bluetoothrccarcontroller.Main"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,8 +27,7 @@
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity android:name="com.example.cripz.bluetoothrccarcontroller.MainControl"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape" >
         </activity>
         <service
             android:name="com.example.cripz.bluetoothrccarcontroller.RBLService"
