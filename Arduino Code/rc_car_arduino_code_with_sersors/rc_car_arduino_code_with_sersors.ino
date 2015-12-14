@@ -8,12 +8,12 @@
 
 BH1750FVI LightSensor;
 
-#define forward 3  // Pin 3 - Forward
-#define backward 2 	// Pin 2 - Backward
+#define forward 6  // Pin 6 - Forward
+#define backward 5 	// Pin 5 - Backward
 #define right 4 //Pin 4 - Right
-#define left 5 //Pin 5 - Left
-#define trigPin 9 //sensor
-#define echoPin 6 //sensor
+#define left 3 //Pin 3 - Left
+#define trigPin 7 //sensor
+#define echoPin 2 //sensor
 
 void setup()
 {
