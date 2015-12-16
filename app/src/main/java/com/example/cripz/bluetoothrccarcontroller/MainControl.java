@@ -14,11 +14,15 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 public class MainControl extends Activity {
 
@@ -30,6 +34,7 @@ public class MainControl extends Activity {
     private String mDeviceName;
     private String mDeviceAddress;
     private RBLService mBluetoothLeService;
+    private static MainControl mainControlInstance = null;
     private HashMap<UUID, BluetoothGattCharacteristic> map = new HashMap<>();
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -59,6 +64,17 @@ public class MainControl extends Activity {
             final String action = intent.getAction();
 
             if (RBLService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(mainControlInstance);
+                builder.title("The device has been disconnected.");
+                builder.neutralText("Exit");
+                builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                });
+                builder.cancelable(false);
+                builder.show();
             } else if (RBLService.ACTION_GATT_SERVICES_DISCOVERED
                     .equals(action)) {
                 getGattService(mBluetoothLeService.getSupportedGattService());
@@ -91,8 +107,9 @@ public class MainControl extends Activity {
         setContentView(R.layout.control_main);
         buttonInitialization();
 
-        Intent intent = getIntent();
+        mainControlInstance = this;
 
+        Intent intent = getIntent();
         mDeviceAddress = intent.getStringExtra(Device.EXTRA_DEVICE_ADDRESS);
         mDeviceName = intent.getStringExtra(Device.EXTRA_DEVICE_NAME);
 
