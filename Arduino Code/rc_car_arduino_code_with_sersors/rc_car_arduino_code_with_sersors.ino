@@ -5,6 +5,8 @@
 #include <EEPROM.h>
 #include <boards.h>
 #include <RBL_nRF8001.h>
+#include <Thread.h>
+#include <ThreadController.h>
 
 BH1750FVI LightSensor;
 
@@ -15,13 +17,16 @@ BH1750FVI LightSensor;
 #define trigPin 7 //sensor
 #define echoPin 2 //sensor
 
+
+
+// ThreadController that will controll all threads
+ThreadController controll = ThreadController();
+
+Thread distanceThread = Thread();
+//Thread lightThread = Thread();
+
 void setup()
 {
-  //  
-  // For BLE Shield and Blend:
-  //   Default pins set to 9 and 8 for REQN and RDYN
-  //   Set your REQN and RDYN here before ble_begin() if you need
-  //
  
 /*     Light Sensor pins
  
@@ -31,9 +36,7 @@ void setup()
         addr >> A3
         Gnd >>>Gnd
 */
-  
-  //ble_set_pins(3, 2);
-  
+    
   ble_set_name("My RC Car"); // The name have to be under 10 letters
 
   Serial.begin(9600);
@@ -49,6 +52,13 @@ void setup()
   pinMode(right, OUTPUT);
   pinMode(left, OUTPUT);
 
+  distanceThread.onRun(distance_sensor);
+  distanceThread.setInterval(500);
+  //lightThread.onRun(light_sensor);
+  //lightThread.setInterval(300);
+  controll.add(&distanceThread);
+  //controll.add(&lightThread);
+  
   ble_begin();
 }
 
@@ -136,14 +146,8 @@ void loop()
     } 
   }
   
-   // loop_count+=1;
-  //Serial.print("loop_counter: ");
-  //Serial.print(loop_count);
-  //Serial.print(" \n");
-  
   ble_do_events();
   
-  distance_sensor();
-  light_sensor();
+  controll.run();
 }
 
