@@ -227,6 +227,18 @@ public class MainControl extends Activity {
                         sendMessage("g");
                     }
                     break;
+                    
+                 case R.id.car_control:
+                    //accelerometer called
+                    Intent accelerometer_control = new Intent(MainControl.this,Accelerometer.class);
+
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        startActivity(accelerometer_control);
+
+                    }/* else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    }*/
+                    break;    
             }
             return true;
         }
