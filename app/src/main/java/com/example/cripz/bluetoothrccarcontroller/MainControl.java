@@ -83,7 +83,7 @@ public class MainControl extends Activity {
             }
         }
     };
-    private void sendMessage(String arg) {
+    public void sendMessage(String arg) {
         BluetoothGattCharacteristic characteristic = map.get(RBLService.UUID_BLE_SHIELD_TX);
         characteristic.setValue(arg);
         mBluetoothLeService.writeCharacteristic(characteristic);
