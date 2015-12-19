@@ -1,5 +1,6 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -60,8 +61,6 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
 
         if(x < x0 - 1){
             state.setText("MOVING_FORWARD");
-            MainControl asd = new MainControl();
-            asd.sendMessage("f");
             if(y < -1){
                 state.setText("MOVING_FORWARD_LEFT");
             }else if(y > 1){
