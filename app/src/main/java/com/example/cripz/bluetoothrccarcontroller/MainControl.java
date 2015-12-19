@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -30,6 +31,7 @@ public class MainControl extends Activity {
     private ImageButton reverse_button;
     private ImageButton left_button;
     private ImageButton right_button;
+    private Button car_control;
 
     private String mDeviceName;
     private String mDeviceAddress;
@@ -94,12 +96,14 @@ public class MainControl extends Activity {
         reverse_button = (ImageButton) findViewById(R.id.reverse_btn);
         left_button = (ImageButton) findViewById(R.id.left_btn);
         right_button = (ImageButton) findViewById(R.id.right_btn);
+        car_control = (Button) findViewById(R.id.car_control);
 
         MyTouchListener touchListener = new MyTouchListener();
         forward_button.setOnTouchListener(touchListener);
         reverse_button.setOnTouchListener(touchListener);
         left_button.setOnTouchListener(touchListener);
         right_button.setOnTouchListener(touchListener);
+        car_control.setOnTouchListener(touchListener);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
