@@ -31,7 +31,6 @@ public class MainControl extends Activity {
     private ImageButton reverse_button;
     private ImageButton left_button;
     private ImageButton right_button;
-    private Button car_control;
 
     private String mDeviceName;
     private String mDeviceAddress;
@@ -96,7 +95,7 @@ public class MainControl extends Activity {
         reverse_button = (ImageButton) findViewById(R.id.reverse_btn);
         left_button = (ImageButton) findViewById(R.id.left_btn);
         right_button = (ImageButton) findViewById(R.id.right_btn);
-        car_control = (Button) findViewById(R.id.car_control);
+        Button car_control = (Button) findViewById(R.id.car_control);
 
         MyTouchListener touchListener = new MyTouchListener();
         forward_button.setOnTouchListener(touchListener);
@@ -114,8 +113,8 @@ public class MainControl extends Activity {
         mainControlInstance = this;
 
         Intent intent = getIntent();
-        mDeviceAddress = intent.getStringExtra(Device.EXTRA_DEVICE_ADDRESS);
-        mDeviceName = intent.getStringExtra(Device.EXTRA_DEVICE_NAME);
+        mDeviceAddress = intent.getStringExtra(Main.EXTRA_DEVICE_ADDRESS);
+        mDeviceName = intent.getStringExtra(Main.EXTRA_DEVICE_NAME);
 
         Intent gattServiceIntent = new Intent(this, RBLService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -235,7 +234,6 @@ public class MainControl extends Activity {
                  case R.id.car_control:
                     //accelerometer called
                     Intent accelerometer_control = new Intent(MainControl.this,Accelerometer.class);
-
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         startActivity(accelerometer_control);
 

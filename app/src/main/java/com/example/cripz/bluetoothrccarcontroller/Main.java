@@ -23,9 +23,12 @@ public class Main extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SCAN_PERIOD = 3000;
-    private MaterialDialog mDialog;
-    public static ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
-    public static Main instance = null;
+    private MaterialDialog processDialog;
+    public  ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
+    public static Main mainInstance = null;
+    public final static String EXTRA_DEVICE_NAME = "EXTRA_DEVICE_NAME";
+    public final static String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +43,14 @@ public class Main extends AppCompatActivity {
             finish();
         }
 
-        instance = this;
+        mainInstance = this;
 
         // Initializes Bluetooth adapter.
         final BluetoothManager mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
 
         //Initializes ProcessDialog
-        buildRoundProcessDialog(instance);
+        buildRoundProcessDialog(mainInstance);
 
         // Checks if Bluetooth is turned on. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
@@ -68,29 +71,64 @@ public class Main extends AppCompatActivity {
         });
     }
 
+    public void buildRoundProcessDialog(Context mContext) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
+        builder.content(R.string.progress_dialog);
+        builder.progress(true, 0);
+        builder.cancelable(false);
+        processDialog = builder.build();
+    }
+
     private void searchForAvailableDevices() {
         scanLeDevice();
-        mDialog.show();
+        processDialog.show();
 
         Timer mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
 
             @Override
             public void run() {
-                Intent deviceListIntent = new Intent(getApplicationContext(),
-                        Device.class);
-                startActivity(deviceListIntent);
-                mDialog.dismiss();
+                showAvailableDevices();
             }
         }, SCAN_PERIOD);
     }
 
-    public void buildRoundProcessDialog(Context mContext) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
-        builder.content(R.string.progress_dialog);
-        builder.progress(true, 0);
-        builder.cancelable(false);
-        mDialog = builder.build();
+    private void showAvailableDevices() {
+
+        final MaterialDialog.Builder builder = new MaterialDialog.Builder(mainInstance);
+        if(mDevices.size() > 0) {
+            final String[] devicesName = new String[mDevices.size()];
+            final String[] devicesAddr = new String[mDevices.size()];
+
+            for(int i = 0; i < mDevices.size();i++){
+                devicesName[i] = mDevices.get(i).getName();
+                devicesAddr[i] = mDevices.get(i).getAddress();
+            }
+            builder.title("Available Devices");
+            builder.items(devicesName);
+            builder.itemsCallback(new MaterialDialog.ListCallback() {
+                @Override
+                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                    String name = devicesName[which];
+                    String addr = devicesAddr[which];
+                    Intent intent = new Intent(Main.this,MainControl.class);
+                    intent.putExtra(EXTRA_DEVICE_NAME, name);
+                    intent.putExtra(EXTRA_DEVICE_ADDRESS, addr);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            builder.title("No available devices found.");
+            builder.cancelable(true);
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                processDialog.dismiss();
+                builder.show();
+            }
+        });
     }
 
     private void scanLeDevice() {
