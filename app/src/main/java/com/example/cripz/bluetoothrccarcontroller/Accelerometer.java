@@ -54,26 +54,26 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
             z0 = Math.round(event.values[2]);
             flag = 1;
         }
-        System.out.println("X: " + x + "X0: " + x0);
-        System.out.println("Y: " + y + "Y0: " + y0);
-        System.out.println("Z: " + z + "Z0: " + z0);
-        state = (TextView)findViewById(R.id.state);
 
-        if(x < x0 - 1){
+        System.out.println("X: " + x + "   Y: " + y + "   Z: " + z);
+        state = (TextView)findViewById(R.id.state);
+        //state.setText("X: " + x + "   Y: " + y + "   Z: " + z);
+
+        if((x0 - x) > 1){
             state.setText("MOVING_FORWARD");
-            if(y < -1){
+            if(y <= -1){
                 state.setText("MOVING_FORWARD_LEFT");
             }else if(y > 1){
                 state.setText("MOVING_FORWARD_RIGHT");
             }
-        }else if(x > x0 + 1){
+        }else if((x - x0) > 1){
             state.setText("MOVING_BACKWARD");
-            if(y < -1){
+            if(y <= -1){
                 state.setText("MOVING_BACKWARD_LEFT");
             }else if(y > 1){
                 state.setText("MOVING_BACKWARD_RIGHT");
             }
-        }else if(y < -1){
+        }else if(y <= -1){
             state.setText("MOVING_LEFT");
         }else if(y > 1){
             state.setText("MOVING_RIGHT");
