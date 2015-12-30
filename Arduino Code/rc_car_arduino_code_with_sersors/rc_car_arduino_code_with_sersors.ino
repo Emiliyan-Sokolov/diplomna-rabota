@@ -23,7 +23,7 @@ BH1750FVI LightSensor;
 ThreadController controll = ThreadController();
 
 Thread distanceThread = Thread();
-//Thread lightThread = Thread();
+Thread lightThread = Thread();
 
 void setup()
 {
@@ -54,10 +54,10 @@ void setup()
 
   distanceThread.onRun(distance_sensor);
   distanceThread.setInterval(500);
-  //lightThread.onRun(light_sensor);
-  //lightThread.setInterval(300);
+  lightThread.onRun(light_sensor);
+  lightThread.setInterval(300);
   controll.add(&distanceThread);
-  //controll.add(&lightThread);
+  controll.add(&lightThread);
   
   ble_begin();
 }
@@ -117,37 +117,36 @@ void light_sensor(){
   Serial.print("Light: ");
   Serial.print(light_sen_lux);
   Serial.print(" lux");
+  Serial.print("\n");
  // ble_write(light_sen_lux);
 }
 
 void loop()
 {
-  
   if (ble_available())
   {
-    val = ble_read(); //receives data from android device
-    //ble_write(val); //sends data to android device
-    if(val == 'f'){
-      go_forward();
-    }else if(val == 'b'){
-      go_backward();
-    }else if(val == 'r'){
-      go_right();
-    }else if(val == 'l'){
-      go_left();
-    }else if(val == 'k'){
-      stop_forward();
-    }else if(val == 'j'){
-      stop_right();
-    }else if(val == 'h'){
-      stop_left();
-    }else if(val == 'g'){
-      stop_backward();
-    } 
+    //ble_write(val); //sends data to android device (one char)
+    //ble_read(); //receives data from android device (one char)
+    switch(ble_read()){
+      case 'f': go_forward();
+      break;
+      case 'b': go_backward();
+      break;
+      case 'r': go_right();
+      break;
+      case 'l': go_left();
+      break;
+      case 'k': stop_forward();
+      break;
+      case 'g': stop_backward();
+      break;
+      case 'j': stop_right();
+      break;
+      case 'h': stop_left();
+      break; 
+    }
   }
-  
   ble_do_events();
-  
   controll.run();
 }
 
