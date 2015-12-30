@@ -123,6 +123,14 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    protected void onStop() {
+        MainControl.sendMessage("k");
+        MainControl.sendMessage("g");
+        MainControl.sendMessage("h");
+        MainControl.sendMessage("j");
+        super.onStop();
+    }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         //not in use

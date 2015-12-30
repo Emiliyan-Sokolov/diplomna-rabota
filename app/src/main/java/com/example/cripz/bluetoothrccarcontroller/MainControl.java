@@ -84,6 +84,7 @@ public class MainControl extends Activity {
             }
         }
     };
+
     public static void sendMessage(String arg) {
         BluetoothGattCharacteristic characteristic = map.get(RBLService.UUID_BLE_SHIELD_TX);
         characteristic.setValue(arg);
@@ -141,6 +142,10 @@ public class MainControl extends Activity {
 
     @Override
     protected void onStop() {
+        sendMessage("k");
+        sendMessage("g");
+        sendMessage("j");
+        sendMessage("h");
         super.onStop();
 
         unregisterReceiver(mGattUpdateReceiver);
@@ -148,8 +153,8 @@ public class MainControl extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
 
+        super.onDestroy();
         mBluetoothLeService.disconnect();
         mBluetoothLeService.close();
 
