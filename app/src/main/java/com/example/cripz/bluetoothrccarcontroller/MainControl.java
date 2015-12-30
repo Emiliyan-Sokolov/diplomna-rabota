@@ -1,5 +1,6 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +61,18 @@ public class MainControl extends Activity {
         }
     };
 
+    private void displayData(byte[] data) {
+
+        String bytesAsString = null;
+        try {
+            bytesAsString = new String(data, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("test", bytesAsString);
+    }
+
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -80,7 +94,7 @@ public class MainControl extends Activity {
                     .equals(action)) {
                 getGattService(mBluetoothLeService.getSupportedGattService());
             } else if (RBLService.ACTION_DATA_AVAILABLE.equals(action)) {
-                //coming soon
+                displayData(intent.getByteArrayExtra(RBLService.EXTRA_DATA));
             }
         }
     };

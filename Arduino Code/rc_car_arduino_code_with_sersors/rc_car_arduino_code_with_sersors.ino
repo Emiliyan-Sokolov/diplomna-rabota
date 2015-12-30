@@ -99,17 +99,23 @@ void stop_backward() {
 }
 
 void distance_sensor() {
+  String dst;
+  char buff[5];
   int duration, distance;
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(1000); //pauses the program for 1 millisecond
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin,HIGH);
   distance = (duration/2) / 29.1;
+  dst ="d" + String(distance) + "    ";
+  dst.toCharArray(buff,5);
   Serial.print("Distance: ");
-  Serial.print(distance);
+  Serial.print(dst);
   Serial.print(" cm");
   Serial.print('\n');
-  //ble_write(distance); 
+  //byte d = (byte)distance;
+  //ble_write(d);
+  ble_write_bytes((unsigned char *)buff, 4); 
 }
 
 void light_sensor(){
@@ -118,7 +124,8 @@ void light_sensor(){
   Serial.print(light_sen_lux);
   Serial.print(" lux");
   Serial.print("\n");
- // ble_write(light_sen_lux);
+  byte l = (byte)light_sen_lux;
+ // ble_write(l);
 }
 
 void loop()
