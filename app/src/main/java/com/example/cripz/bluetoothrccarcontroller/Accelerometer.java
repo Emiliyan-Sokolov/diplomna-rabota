@@ -11,12 +11,17 @@ import android.hardware.SensorEventListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 /**
  * Created by porsh on 12/19/2015.
  */
 public class Accelerometer extends AppCompatActivity implements SensorEventListener {
     private float x, y, z;
-    private TextView state;
+    private TextView stateText;
+    private String state = " ";
+    private String lastState = "  ";
     private float x0, y0, z0;
     private Sensor acc;
     private SensorManager senMng;
@@ -31,7 +36,7 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         acc = senMng.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         if(acc != null){
-            senMng.registerListener(this, acc, SensorManager.SENSOR_DELAY_FASTEST);
+            senMng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
 
             Toast.makeText(getApplicationContext(), "Success!",Toast.LENGTH_LONG ).show();
         }else{
@@ -47,38 +52,74 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         y = Math.round(event.values[1]);
         z = Math.round(event.values[2]);
 
-        if(flag == 0) {
+        //if(flag == 0) {
             //x0Text = events.values[0];
-            x0 = Math.round(event.values[0]);
-            y0 = Math.round(event.values[1]);
-            z0 = Math.round(event.values[2]);
-            flag = 1;
-        }
+            x0 = 10;
+            y0 = 0;
+            z0 = 0;
+           // flag = 1;
+        //}
 
         System.out.println("X: " + x + "   Y: " + y + "   Z: " + z);
-        state = (TextView)findViewById(R.id.state);
-        //state.setText("X: " + x + "   Y: " + y + "   Z: " + z);
+        stateText = (TextView)findViewById(R.id.stateTextID);
 
-        if((x0 - x) > 1){
-            state.setText("MOVING_FORWARD");
-            if(y <= -1){
-                state.setText("MOVING_FORWARD_LEFT");
-            }else if(y > 1){
-                state.setText("MOVING_FORWARD_RIGHT");
+       // stateText.setText("X: " + x + "   Y: " + y + "   Z: " + z);
+
+        if(z > 1) {
+            state = "MOVING_FORWARD";
+            stateText.setText(state);
+
+            if (!lastState.equals(state)) {
+                MainControl.sendMessage("j");
+                MainControl.sendMessage("h");
+                MainControl.sendMessage("g");
+                MainControl.sendMessage("f");
+                lastState = state;
             }
-        }else if((x - x0) > 1){
-            state.setText("MOVING_BACKWARD");
-            if(y <= -1){
-                state.setText("MOVING_BACKWARD_LEFT");
-            }else if(y > 1){
-                state.setText("MOVING_BACKWARD_RIGHT");
+
+
+        }else if(z < -1) {
+            state = "MOVING_BACKWARD";
+            stateText.setText(state);
+
+            if (!lastState.equals(state)) {
+                MainControl.sendMessage("k");
+                MainControl.sendMessage("j");
+                MainControl.sendMessage("h");
+                MainControl.sendMessage("b");
+                lastState = state;
             }
-        }else if(y <= -1){
-            state.setText("MOVING_LEFT");
-        }else if(y > 1){
-            state.setText("MOVING_RIGHT");
-        }else{
-            state.setText("STAY");
+        }else if(y <= -2){
+            state = "MOVING_LEFT";
+            stateText.setText(state);
+
+            if(!lastState.equals(state)) {
+                MainControl.sendMessage("k");
+                MainControl.sendMessage("g");
+                MainControl.sendMessage("j");
+                MainControl.sendMessage("l");
+                lastState = state;
+            }
+        }else if(y > 2){
+            state = "MOVING_RIGHT";
+            stateText.setText(state);
+            if(!lastState.equals(state)){
+                MainControl.sendMessage("k");
+                MainControl.sendMessage("g");
+                MainControl.sendMessage("h");
+                MainControl.sendMessage("r");
+                lastState = state;
+            }
+        } else if((z >= -1 && z <= 1) && (y >-2 && y < 2)) {
+            state = "STAY";
+            stateText.setText(state);
+            if(!lastState.equals(state)) {
+                MainControl.sendMessage("k");
+                MainControl.sendMessage("g");
+                MainControl.sendMessage("h");
+                MainControl.sendMessage("j");
+                lastState = state;
+            }
         }
     }
 

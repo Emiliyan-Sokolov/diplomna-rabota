@@ -34,9 +34,9 @@ public class MainControl extends Activity {
 
     private String mDeviceName;
     private String mDeviceAddress;
-    private RBLService mBluetoothLeService;
+    private static RBLService mBluetoothLeService;
     private static MainControl mainControlInstance = null;
-    private HashMap<UUID, BluetoothGattCharacteristic> map = new HashMap<>();
+    private static HashMap<UUID, BluetoothGattCharacteristic> map = new HashMap<>();
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -84,7 +84,7 @@ public class MainControl extends Activity {
             }
         }
     };
-    public void sendMessage(String arg) {
+    public static void sendMessage(String arg) {
         BluetoothGattCharacteristic characteristic = map.get(RBLService.UUID_BLE_SHIELD_TX);
         characteristic.setValue(arg);
         mBluetoothLeService.writeCharacteristic(characteristic);
