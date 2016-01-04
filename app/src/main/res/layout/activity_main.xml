@@ -3,15 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="RC Car Controller"
-        android:textSize="30sp" />
-
     <android.support.v7.widget.AppCompatButton
         style="@style/main_button_text"
         android:layout_width="180dp"
@@ -19,9 +10,18 @@
         android:id="@+id/main_btn"
         android:background="@drawable/button_background"
         android:text="Connect"
-        android:layout_below="@+id/tv"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp" />
+        android:layout_marginTop="97dp" />
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/logo"
+        android:layout_marginTop="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
