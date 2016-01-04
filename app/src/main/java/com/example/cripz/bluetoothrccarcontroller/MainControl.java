@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -71,6 +72,15 @@ public class MainControl extends Activity {
         }
 
         Log.i("test", bytesAsString);
+        if(bytesAsString.contains("d")){
+            TextView distance = (TextView)findViewById(R.id.distanceId);
+            bytesAsString = bytesAsString.split("d")[1];
+            distance.setText("Distance: " + bytesAsString + "cm");
+        }else if(bytesAsString.contains("l")){
+            TextView light = (TextView)findViewById(R.id.lightId);
+            bytesAsString = bytesAsString.split("l")[1];
+            light.setText("Light: " + bytesAsString + "lux");
+        }
     }
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {

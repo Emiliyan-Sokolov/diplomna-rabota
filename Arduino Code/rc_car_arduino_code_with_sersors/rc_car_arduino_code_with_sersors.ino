@@ -141,12 +141,17 @@ void distance_sensor() {
 }
 
 void light_sensor(){
+  String light;
+  char buff[6];
   uint16_t light_sen_lux = LightSensor.GetLightIntensity();// Get Lux value
+  light ="l" + String(light_sen_lux) + "    ";
+  light.toCharArray(buff, 6);
+  ble_write_bytes((unsigned char *)buff, 4);
   Serial.print("Light: ");
   Serial.print(light_sen_lux);
   Serial.print(" lux");
   Serial.print("\n");
-  byte l = (byte)light_sen_lux;
+  //byte l = (byte)light_sen_lux;
  // ble_write(l);
 }
 
