@@ -9,14 +9,16 @@ import android.hardware.SensorEventListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class Accelerometer extends AppCompatActivity implements SensorEventListener {
     private float x, y, z;
     private TextView stateText;
-    private String state = " ";
-    private String lastState = "  ";
-    private float x0, y0, z0;
+    private String state = "state";
+    private String lastState = "lastState";
+    // private float x0, y0, z0;
     private Sensor acc;
     private SensorManager senMng;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,81 +39,110 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
 
     }
 
+    private String goForward(){
+        MainControl.sendMessage("f"); //go forward
+        MainControl.sendMessage("g"); //stop backward
+        MainControl.sendMessage("h"); //stop left
+        MainControl.sendMessage("j"); //stop right
+        lastState = "MOVING_FORWARD";
+
+        return lastState;
+    }
+
+    private String goBackward(){
+        MainControl.sendMessage("k"); //stop forward
+        MainControl.sendMessage("b"); //go backward
+        MainControl.sendMessage("h"); //stop left
+        MainControl.sendMessage("j"); //stop right
+        lastState = "MOVING_BACKWARD";
+
+        return lastState;
+    }
+
+    private String goRight(){
+        MainControl.sendMessage("k"); //stop forward
+        MainControl.sendMessage("g"); //stop backward
+        MainControl.sendMessage("h"); //stop left
+        MainControl.sendMessage("r"); //go right
+        lastState = "MOVING_RIGHT";
+
+        return lastState;
+    }
+
+    private String goLeft(){
+        MainControl.sendMessage("k"); //stop forward
+        MainControl.sendMessage("g"); //stop backward
+        MainControl.sendMessage("l"); //go left
+        MainControl.sendMessage("j"); //stop right
+        lastState = "MOVING_LEFT";
+
+        return lastState;
+    }
+
+
+    private String stop(){
+        MainControl.sendMessage("k"); //stop forward
+        MainControl.sendMessage("g"); //stop backward
+        MainControl.sendMessage("h"); //stop left
+        MainControl.sendMessage("j"); //stop right
+        lastState = "STAY";
+
+        return lastState;
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         x = Math.round(event.values[0]);
         y = Math.round(event.values[1]);
         z = Math.round(event.values[2]);
 
-        //if(flag == 0) {
-            //x0Text = events.values[0];
-            x0 = 10;
-            y0 = 0;
-            z0 = 0;
-           // flag = 1;
-        //}
-
         System.out.println("X: " + x + "   Y: " + y + "   Z: " + z);
         stateText = (TextView)findViewById(R.id.stateTextID);
-
-       // stateText.setText("X: " + x + "   Y: " + y + "   Z: " + z);
-
-        if(z > 1) {
-            state = "MOVING_FORWARD";
-            stateText.setText(state);
-
-            if (!lastState.equals(state)) {
-                MainControl.sendMessage("j");
-                MainControl.sendMessage("h");
-                MainControl.sendMessage("g");
-                MainControl.sendMessage("f");
-                lastState = state;
-            }
+        //stateText.setText(("X: " + x + "   Y: " + y + "   Z: " + z + state));
 
 
-        }else if(z < -1) {
-            state = "MOVING_BACKWARD";
-            stateText.setText(state);
-
-            if (!lastState.equals(state)) {
-                MainControl.sendMessage("k");
-                MainControl.sendMessage("j");
-                MainControl.sendMessage("h");
-                MainControl.sendMessage("b");
-                lastState = state;
-            }
-        }else if(y <= -2){
+        if (y <= -3) {
             state = "MOVING_LEFT";
-            stateText.setText(state);
-
-            if(!lastState.equals(state)) {
-                MainControl.sendMessage("k");
-                MainControl.sendMessage("g");
-                MainControl.sendMessage("j");
-                MainControl.sendMessage("l");
-                lastState = state;
-            }
-        }else if(y > 2){
-            state = "MOVING_RIGHT";
-            stateText.setText(state);
             if(!lastState.equals(state)){
-                MainControl.sendMessage("k");
-                MainControl.sendMessage("g");
-                MainControl.sendMessage("h");
-                MainControl.sendMessage("r");
-                lastState = state;
+                goLeft();
             }
-        } else if((z >= -1 && z <= 1) && (y >-2 && y < 2)) {
-            state = "STAY";
             stateText.setText(state);
-            if(!lastState.equals(state)) {
-                MainControl.sendMessage("k");
-                MainControl.sendMessage("g");
-                MainControl.sendMessage("h");
-                MainControl.sendMessage("j");
-                lastState = state;
+        }
+
+        if (y >= 3) {
+            state = "MOVING_RIGHT";
+            if(!lastState.equals(state)){
+                goRight();
+            }
+            stateText.setText(state);
+        }
+
+        if(z >= 2){
+            state = "MOVING_FORWARD";
+            if(!lastState.equals(state)){
+                goForward();
+                stateText.setText(state);
             }
         }
+
+        if (z <= -2){
+            state = "MOVING_BACKWARD";
+            if(!lastState.equals(state)){
+                goBackward();
+            }
+            stateText.setText(state);
+        }
+
+
+        if ((y == -1 || y == 0 || y == 1 ) && (z == -1 || z == 0 || z == 1 )) {
+            state = "STAY";
+            if(!lastState.equals(state)){
+                stop();
+            }
+            stateText.setText(state);
+        }
+
+
     }
 
     @Override
@@ -130,6 +161,7 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         super.onResume();
         senMng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
