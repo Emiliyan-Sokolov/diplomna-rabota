@@ -1,9 +1,7 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
@@ -11,12 +9,6 @@ import android.hardware.SensorEventListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.UUID;
-
-/**
- * Created by porsh on 12/19/2015.
- */
 public class Accelerometer extends AppCompatActivity implements SensorEventListener {
     private float x, y, z;
     private TextView stateText;
@@ -25,7 +17,6 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
     private float x0, y0, z0;
     private Sensor acc;
     private SensorManager senMng;
-    private int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +114,21 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    @Override
     protected void onStop() {
+        super.onStop();
         MainControl.sendMessage("k");
         MainControl.sendMessage("g");
-        MainControl.sendMessage("h");
         MainControl.sendMessage("j");
-        super.onStop();
+        MainControl.sendMessage("h");
+        MainControl.sendMessage("v");
+        senMng.unregisterListener(this, acc);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        senMng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override

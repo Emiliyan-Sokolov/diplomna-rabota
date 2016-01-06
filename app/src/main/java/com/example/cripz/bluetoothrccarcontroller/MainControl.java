@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.UUID;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
@@ -16,6 +15,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,12 +28,13 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-public class MainControl extends Activity {
+public class MainControl extends AppCompatActivity {
 
     private ImageButton forwardButton;
     private ImageButton reverseButton;
     private ImageButton leftButton;
     private ImageButton rightButton;
+    private ImageButton carLights;
     private Boolean carLightsFlag = false;
     private String mDeviceName;
     private String mDeviceAddress;
@@ -120,8 +121,8 @@ public class MainControl extends Activity {
         reverseButton = (ImageButton) findViewById(R.id.reverse_btn);
         leftButton = (ImageButton) findViewById(R.id.left_btn);
         rightButton = (ImageButton) findViewById(R.id.right_btn);
-        Button carControl = (Button) findViewById(R.id.car_control);
-        Button carLights = (Button) findViewById(R.id.car_lights);
+        final Button carControl = (Button) findViewById(R.id.car_control);
+        carLights = (ImageButton) findViewById(R.id.car_lights);
         MyTouchListener touchListener = new MyTouchListener();
         forwardButton.setOnTouchListener(touchListener);
         reverseButton.setOnTouchListener(touchListener);
@@ -131,18 +132,21 @@ public class MainControl extends Activity {
         carLights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(carLightsFlag) {
+                if (carLightsFlag) {
+                    carLights.setBackgroundResource(R.drawable.short_off);
                     sendMessage("v");
                     carLightsFlag = false;
-                }else {
+                } else {
+                    carLights.setBackgroundResource(R.drawable.short_on);
                     sendMessage("n");
                     carLightsFlag = true;
                 }
             }
         });
-        carLights.setOnLongClickListener(new View.OnLongClickListener(){
+        carLights.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                carLights.setBackgroundResource(R.drawable.long_on);
                 sendMessage("m");
                 return true;
             }
@@ -186,12 +190,13 @@ public class MainControl extends Activity {
 
     @Override
     protected void onStop() {
+        super.onStop();
         sendMessage("k");
         sendMessage("g");
         sendMessage("j");
         sendMessage("h");
-        super.onStop();
-
+        sendMessage("v");
+        carLights.setBackgroundResource(R.drawable.short_off);
         unregisterReceiver(mGattUpdateReceiver);
     }
 

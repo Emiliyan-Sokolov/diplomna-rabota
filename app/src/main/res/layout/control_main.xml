@@ -48,14 +48,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:text="Lights"
         android:id="@+id/car_lights"
         android:layout_gravity="left|top"
+        android:background="@drawable/short_off"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/forward_btn" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -64,32 +65,31 @@
         android:id="@+id/car_control"
         android:layout_gravity="center_horizontal|top"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/car_lights"
-        android:layout_marginEnd="26dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sensor data :"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distance: "
         android:id="@+id/distanceId"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignBottom="@+id/car_control"
+        android:layout_alignStart="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Light:"
         android:id="@+id/lightId"
-        android:layout_alignTop="@+id/distanceId"
+        android:layout_below="@+id/textView2"
         android:layout_toEndOf="@+id/left_btn" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sensors:"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/distanceId"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
