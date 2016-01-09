@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class Accelerometer extends AppCompatActivity implements SensorEventListener {
+public class Accelerometer extends OptionsActivity implements SensorEventListener {
     private float x, y, z;
     private float x0, y0, z0;
     private TextView stateText;

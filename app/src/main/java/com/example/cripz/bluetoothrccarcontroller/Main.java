@@ -1,6 +1,5 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-public class Main extends AppCompatActivity {
+public class Main extends OptionsActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SCAN_PERIOD = 3000;
