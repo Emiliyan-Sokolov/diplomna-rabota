@@ -2,6 +2,7 @@ package com.example.cripz.bluetoothrccarcontroller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.view.View.OnTouchListener;
 
@@ -20,7 +21,8 @@ public class Programming extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.programming_main);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
 
     }
 }

@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,8 @@ public class Accelerometer extends OptionsActivity implements SensorEventListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accelerometer_main);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         senMng = (SensorManager)getSystemService(SENSOR_SERVICE);
         acc = senMng.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 

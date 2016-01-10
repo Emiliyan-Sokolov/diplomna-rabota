@@ -2,6 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
     <ImageButton
         android:layout_width="110dp"
@@ -11,7 +14,6 @@
         android:background="#0000"
         android:scaleType="fitCenter"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_marginRight="0dp"
         android:layout_above="@+id/reverse_btn"
         android:layout_alignStart="@+id/reverse_btn" />
 
@@ -22,7 +24,6 @@
         android:src="@drawable/btn_reverse"
         android:background="#0000"
         android:scaleType="fitCenter"
-        android:layout_marginRight="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
@@ -33,7 +34,6 @@
         android:src="@drawable/btn_right"
         android:background="#0000"
         android:scaleType="fitCenter"
-        android:layout_marginLeft="0dp"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/left_btn" />
 
@@ -44,52 +44,51 @@
         android:src="@drawable/btn_left"
         android:background="#0000"
         android:scaleType="fitCenter"
-        android:layout_marginLeft="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="55dp"
         android:layout_height="55dp"
+        android:layout_marginEnd="7dp"
         android:text="Lights"
         android:id="@+id/car_lights"
         android:layout_gravity="left|top"
         android:background="@drawable/short_off"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/app_bar"
+        android:layout_alignEnd="@+id/forward_btn" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
         android:text="Accelerometer"
         android:id="@+id/car_control"
         android:layout_gravity="center_horizontal|top"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sensors"
         android:text="Distance: "
-        android:id="@+id/distanceId"
-        android:layout_alignBottom="@+id/car_control"
-        android:layout_alignStart="@+id/textView2" />
+        android:id="@+id/distanceId" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Light:"
         android:id="@+id/lightId"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/sensors"
         android:layout_toEndOf="@+id/left_btn" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Sensors:"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/distanceId"
+        android:id="@+id/sensors"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

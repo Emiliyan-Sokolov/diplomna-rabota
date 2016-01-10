@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
     <android.support.v7.widget.AppCompatButton
         style="@style/main_button_text"
         android:layout_width="180dp"
@@ -28,9 +32,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
         android:text="Programming Mode"
         android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
 
