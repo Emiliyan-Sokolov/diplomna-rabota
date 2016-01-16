@@ -2,10 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
-
     <ImageButton
         android:layout_width="110dp"
         android:layout_height="110dp"
@@ -46,49 +42,6 @@
         android:scaleType="fitCenter"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
-
-    <ImageButton
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="7dp"
-        android:text="Lights"
-        android:id="@+id/car_lights"
-        android:layout_gravity="left|top"
-        android:background="@drawable/short_off"
-        android:layout_below="@+id/app_bar"
-        android:layout_alignEnd="@+id/forward_btn" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:text="Accelerometer"
-        android:id="@+id/car_control"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sensors"
-        android:text="Distance: "
-        android:id="@+id/distanceId" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Light:"
-        android:id="@+id/lightId"
-        android:layout_below="@+id/sensors"
-        android:layout_toEndOf="@+id/left_btn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sensors:"
-        android:id="@+id/sensors"
-        android:layout_alignParentStart="true" />
+ />
 
 </RelativeLayout>

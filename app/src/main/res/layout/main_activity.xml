@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <RelativeLayout
+        android:id="@+id/sensorsAndLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar">
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:text="Lights"
+            android:id="@+id/car_lights"
+            android:layout_gravity="left|top"
+            android:background="@drawable/short_off"
+            android:layout_marginEnd="7dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance: "
+            android:id="@+id/distanceId"
+            android:layout_below="@+id/sensors"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Light:"
+            android:id="@+id/lightId"
+            android:layout_marginStart="22dp"
+            android:layout_below="@+id/sensors"
+            android:layout_toEndOf="@+id/sensors" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sensors:"
+            android:id="@+id/sensors"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_below="@id/sensorsAndLight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></RelativeLayout>
+
+</RelativeLayout>
