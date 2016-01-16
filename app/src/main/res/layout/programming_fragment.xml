@@ -8,29 +8,36 @@
         style="@style/main_button_text"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/open_btn"
-        android:layout_marginStart="68dp"
         android:background="@drawable/button_background"
-        android:text="New" />
+        android:text="New"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/open_btn"
         style="@style/main_button_text"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="73dp"
-        android:layout_toEndOf="@+id/new_btn"
         android:background="@drawable/button_background"
-        android:text="Open" />
+        android:text="Open"
+        android:layout_above="@+id/programs"
+        android:layout_alignParentEnd="true" />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/app_bar"
-        android:text="Programming Mode" />
+        android:text="Programs: \n"
+        android:layout_marginTop="62dp"
+        android:id="@+id/programs"
+        android:layout_below="@+id/new_btn"
+        android:layout_alignStart="@+id/new_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FileContent: \n"
+        android:id="@+id/fileContent"
+        android:layout_alignTop="@+id/programs"
+        android:layout_alignEnd="@+id/open_btn" />
 
 </RelativeLayout>
