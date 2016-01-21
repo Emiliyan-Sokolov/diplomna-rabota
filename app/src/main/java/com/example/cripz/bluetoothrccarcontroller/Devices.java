@@ -108,6 +108,7 @@ public class Devices extends MenuActivity {
             }
             builder.title("Available Devices");
             builder.items(devicesName);
+            builder.cancelable(false);
             builder.itemsCallback(new MaterialDialog.ListCallback() {
                 @Override
                 public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -121,6 +122,8 @@ public class Devices extends MenuActivity {
         } else {
             builder.title("No available devices found.");
             builder.cancelable(true);
+            builder.neutralText("Exit");
+            builder.cancelable(false);
         }
 
         runOnUiThread(new Runnable() {
