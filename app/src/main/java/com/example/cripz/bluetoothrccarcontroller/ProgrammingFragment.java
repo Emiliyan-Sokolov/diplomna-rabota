@@ -4,11 +4,15 @@ package com.example.cripz.bluetoothrccarcontroller;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,9 +31,9 @@ public class ProgrammingFragment extends Fragment {
 
     HashMap<String, String> programsConfig = new HashMap<>();
 
-    public void fileWrite(String fileName, String text){
+    public void fileWrite(String fileName, String text) {
         try {
-            File file = new File(getActivity().getFilesDir().getPath(),fileName);
+            File file = new File(getActivity().getFilesDir().getPath(), fileName);
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(text);
             fileWriter.flush();
@@ -41,16 +45,33 @@ public class ProgrammingFragment extends Fragment {
 
     }
 
-    public void showFilesInDirectory(String filesType ){
-        TextView pr = (TextView)rootView.findViewById(R.id.programs);
+    public void showFilesInDirectory(String filesType) {
         File programs[] = new File(getActivity().getFilesDir().getPath()).listFiles();
-        String prList = "";
-        for (File program : programs) {
-            if (program.getName().contains(filesType)) {
-                prList = prList + program.getName() + "\n";
+        if (programs.length > 0) {
+            final String prList[] = new String[programs.length];
+            for (int i = 0; i < programs.length; i++) {
+                if (programs[i].getName().contains(filesType)) {
+                    prList[i] = programs[i].getName();
+                }
             }
+            new MaterialDialog.Builder(getActivity())
+                    .title("Programs")
+                    .items(prList)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            Log.d("err", prList[which]);
+                            fileRead(prList[which]);
+                        }
+                    })
+                    .show();
         }
-        pr.setText("Programs: \n" + prList + "\n");
+        else {
+            new MaterialDialog.Builder(getActivity())
+                    .title("No available programs.")
+                    .neutralText("OK")
+                    .show();
+        }
 
     }
 
@@ -72,28 +93,35 @@ public class ProgrammingFragment extends Fragment {
             }
             br.close();
             obj = new JSONObject(text);
-            //action = (String)obj.get("action");
+            action = (String)obj.get("action");
 
         } catch (IOException e) {
-            //error handling coming soon
+            Toast.makeText(getActivity(),"Can't open file",Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        TextView fContent = (TextView)rootView.findViewById(R.id.fileContent);
+        TextView fContent = (TextView) rootView.findViewById(R.id.fileContent);
         fContent.setText("FileContent: \n" + obj);
 
     }
 
-    private void buttonInit(){
-        buttonNew = (Button)rootView.findViewById(R.id.new_btn);
-        buttonOpen = (Button)rootView.findViewById(R.id.open_btn);
+    private void buttonInit() {
+        buttonNew = (Button) rootView.findViewById(R.id.new_btn);
+        buttonOpen = (Button) rootView.findViewById(R.id.open_btn);
+        buttonOpen.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showFilesInDirectory(".json");
+            }
+        });
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.programming_fragment,container,false);
+        rootView = inflater.inflate(R.layout.programming_fragment, container, false);
         return rootView;
     }
 
@@ -107,10 +135,8 @@ public class ProgrammingFragment extends Fragment {
         programsConfig.put("state", "asd");
 
 
-        JSONObject jsonObject =new JSONObject(programsConfig);
+        JSONObject jsonObject = new JSONObject(programsConfig);
         String jsonString = jsonObject.toString();
         fileWrite("newProgram.json", jsonString);
-        showFilesInDirectory(".json");
-        fileRead("newProgram.json");
     }
 }
