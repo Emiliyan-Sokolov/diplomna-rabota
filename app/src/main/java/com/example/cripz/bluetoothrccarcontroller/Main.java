@@ -31,7 +31,8 @@ public class Main extends MenuActivity {
 
     FragmentManager manager;
     private ImageButton carLights;
-    private Boolean carLightsFlag = false;
+    private Boolean shortLightsFlag = false;
+    private Boolean longLightsFlag = false;
     private String mDeviceName;
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
@@ -136,22 +137,32 @@ public class Main extends MenuActivity {
         carLights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (carLightsFlag) {
-                    carLights.setBackgroundResource(R.drawable.short_off);
-                    sendMessage("v");
-                    carLightsFlag = false;
-                } else {
-                    carLights.setBackgroundResource(R.drawable.short_on);
-                    sendMessage("n");
-                    carLightsFlag = true;
+                if(!longLightsFlag) {
+                    if (shortLightsFlag) {
+                        carLights.setBackgroundResource(R.drawable.short_off);
+                        sendMessage("v");
+                        shortLightsFlag = false;
+                    } else {
+                        carLights.setBackgroundResource(R.drawable.short_on);
+                        sendMessage("n");
+                        shortLightsFlag = true;
+                    }
                 }
             }
         });
         carLights.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                carLights.setBackgroundResource(R.drawable.long_on);
-                sendMessage("m");
+                if(longLightsFlag){
+                    carLights.setBackgroundResource(R.drawable.short_on);
+                    sendMessage("n");
+                    longLightsFlag = false;
+                }
+                else {
+                    carLights.setBackgroundResource(R.drawable.long_on);
+                    sendMessage("m");
+                    longLightsFlag = true;
+                }
                 return true;
             }
         });
