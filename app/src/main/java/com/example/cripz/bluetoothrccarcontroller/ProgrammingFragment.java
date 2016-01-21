@@ -65,8 +65,7 @@ public class ProgrammingFragment extends Fragment {
                         }
                     })
                     .show();
-        }
-        else {
+        } else {
             new MaterialDialog.Builder(getActivity())
                     .title("No available programs.")
                     .neutralText("OK")
@@ -80,23 +79,33 @@ public class ProgrammingFragment extends Fragment {
 
         //Read text from file
         String text = "";
+        String condition = "";
         String action = "";
         JSONObject obj = null;
+        String sensor;
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-
             while ((line = br.readLine()) != null) {
                 text = text + line.toString();
                 text = text + "\n";
             }
             br.close();
             obj = new JSONObject(text);
-            action = (String)obj.get("action");
-
+            action = (String) obj.get("action");
+            condition = (String) obj.get("condition");
+            switch (condition) {
+                case "light":
+                    if (Main.lightLux < 40) {
+                        Main.sendMessage("n");
+                        Main.carLights.setBackgroundResource(R.drawable.short_on);
+                        Main.shortLightsFlag = true;
+                    }
+                    break;
+            }
         } catch (IOException e) {
-            Toast.makeText(getActivity(),"Can't open file",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Can't open file", Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -109,13 +118,14 @@ public class ProgrammingFragment extends Fragment {
     private void buttonInit() {
         buttonNew = (Button) rootView.findViewById(R.id.new_btn);
         buttonOpen = (Button) rootView.findViewById(R.id.open_btn);
-        buttonOpen.setOnClickListener(new View.OnClickListener(){
+        buttonOpen.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 showFilesInDirectory(".json");
             }
         });
+
     }
 
     @Nullable
@@ -133,6 +143,7 @@ public class ProgrammingFragment extends Fragment {
         programsConfig.put("action", "go_forward");
         programsConfig.put("another_option", "test");
         programsConfig.put("state", "asd");
+        programsConfig.put("condition", "light");
 
 
         JSONObject jsonObject = new JSONObject(programsConfig);

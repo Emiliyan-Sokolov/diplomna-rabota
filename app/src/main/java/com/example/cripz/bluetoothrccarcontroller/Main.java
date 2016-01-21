@@ -30,15 +30,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 public class Main extends MenuActivity {
 
     FragmentManager manager;
-    private ImageButton carLights;
-    private Boolean shortLightsFlag = false;
+    public static ImageButton carLights;
+    public static Boolean shortLightsFlag = false;
     private Boolean longLightsFlag = false;
     private String mDeviceName;
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
     private static Main mainInstance = null;
     private static HashMap<UUID, BluetoothGattCharacteristic> map = new HashMap<>();
-
+    public static int lightLux;
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -74,10 +74,15 @@ public class Main extends MenuActivity {
             TextView distance = (TextView)findViewById(R.id.distanceId);
             bytesAsString = bytesAsString.split("d")[1];
             distance.setText("Distance: " + bytesAsString + "cm");
-        }else if(bytesAsString.contains("l")){
-            TextView light = (TextView)findViewById(R.id.lightId);
+        }else if(bytesAsString.contains("l")) {
+            TextView light = (TextView) findViewById(R.id.lightId);
             bytesAsString = bytesAsString.split("l")[1];
             light.setText("Light: " + bytesAsString + "lux");
+            try {
+                lightLux = Integer.parseInt(bytesAsString);
+            } catch(NumberFormatException ex) {
+                //pass
+            }
         }
     }
 
