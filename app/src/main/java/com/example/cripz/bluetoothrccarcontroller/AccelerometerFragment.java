@@ -70,7 +70,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         System.out.println("X: " + x + "   Y: " + y + "   Z: " + z);
         stateText = (TextView)rootView.findViewById(R.id.stateTextID);
 
-        if(z > 2){
+        if(z > 4){
 
             if(y <= -1){
 
@@ -105,7 +105,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                     lastState = state;
                 }
             }
-        }else if(z < 0){
+        }else if(z < -2){
             if(y <= -1){
 
                 state = "MOVING_BACKWARD_LEFT";
