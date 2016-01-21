@@ -97,11 +97,9 @@ public class ProgrammingFragment extends Fragment {
             condition = (String) obj.get("condition");
             switch (condition) {
                 case "light":
-                    if (Main.lightLux < 40) {
-                        Main.sendMessage("n");
-                        Main.carLights.setBackgroundResource(R.drawable.short_on);
-                        Main.shortLightsFlag = true;
-                    }
+                    Main.sendMessage("n");
+                    Main.carLights.setBackgroundResource(R.drawable.short_on);
+                    Main.shortLightsFlag = true;
                     break;
             }
         } catch (IOException e) {
