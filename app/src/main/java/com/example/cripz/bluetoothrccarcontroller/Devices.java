@@ -13,12 +13,14 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 public class Devices extends MenuActivity {
@@ -123,7 +125,12 @@ public class Devices extends MenuActivity {
             builder.title("No available devices found.");
             builder.cancelable(true);
             builder.neutralText("Exit");
-            builder.cancelable(false);
+            builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    finish();
+                }
+            });
         }
 
         runOnUiThread(new Runnable() {
