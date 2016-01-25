@@ -13,12 +13,13 @@ BH1750FVI LightSensor;
 #define forward 6
 #define backward 5 
 #define right A0
-#define left A2 
+#define left 2
 #define trigPin 7 
 #define echoPin A1
 #define left_headlight 9
 #define right_headlight 3
 #define stop_lights 4
+#define battery_sensor A2
 
 // ThreadController that will controll all threads
 ThreadController controll = ThreadController();
@@ -39,7 +40,7 @@ void setup()
 */
     
   ble_set_name("My RC Car"); // The name have to be under 10 letters
-  ble_set_pins(2,8); // setting the REQN, RDYN pins
+  ble_set_pins(10,8); // setting the REQN, RDYN pins
   
   Serial.begin(9600);
   LightSensor.begin();
@@ -56,6 +57,7 @@ void setup()
   pinMode(left_headlight, OUTPUT);
   pinMode(right_headlight, OUTPUT);
   pinMode(stop_lights, OUTPUT);
+  pinMode(battery_sensor, INPUT);
   distanceThread.onRun(distance_sensor);
   distanceThread.setInterval(500);
   lightThread.onRun(light_sensor);
@@ -118,6 +120,15 @@ void car_lights_off() {
    analogWrite(left_headlight, 0);
    analogWrite(right_headlight, 0);
    digitalWrite(stop_lights, LOW);
+}
+
+void measure_battery() {
+  int sensor_value = analogRead(battery_sensor);
+  float voltage = sensor_value * (5.0 / 1023.0); // converting sensor value to voltage
+  Serial.print("\n");
+  Serial.print("Battery Voltage: ");
+  Serial.print(voltage);
+  Serial.print("\n");
 }
  
 void distance_sensor() {
@@ -188,5 +199,6 @@ void loop()
   }
   ble_do_events();
   controll.run();
+  measure_battery();
 }
 
