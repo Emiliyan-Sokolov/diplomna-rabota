@@ -10,8 +10,9 @@
         android:layout_height="50dp"
         android:background="@drawable/button_background"
         android:text="New"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="69dp" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/open_btn"
@@ -20,24 +21,8 @@
         android:layout_height="50dp"
         android:background="@drawable/button_background"
         android:text="Open"
-        android:layout_above="@+id/programs"
+        android:layout_marginEnd="69dp"
+        android:layout_alignTop="@+id/new_btn"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Programs: \n"
-        android:layout_marginTop="62dp"
-        android:id="@+id/programs"
-        android:layout_below="@+id/new_btn"
-        android:layout_alignStart="@+id/new_btn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FileContent: \n"
-        android:id="@+id/fileContent"
-        android:layout_alignTop="@+id/programs"
-        android:layout_alignEnd="@+id/open_btn" />
 
 </RelativeLayout>

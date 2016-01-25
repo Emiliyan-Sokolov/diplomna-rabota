@@ -74,15 +74,11 @@ public class ProgrammingFragment extends Fragment {
 
     }
 
-    public void fileRead(String fileName) {
+    public String fileRead(String fileName) {
         File file = new File(getActivity().getFilesDir().getPath(), fileName);
 
         //Read text from file
         String text = "";
-        String condition = "";
-        String action = "";
-        JSONObject obj = null;
-        String sensor;
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -92,24 +88,13 @@ public class ProgrammingFragment extends Fragment {
                 text = text + "\n";
             }
             br.close();
-            obj = new JSONObject(text);
-            action = (String) obj.get("action");
-            condition = (String) obj.get("condition");
-            switch (condition) {
-                case "light":
-                    Main.sendMessage("n");
-                    Main.carLights.setBackgroundResource(R.drawable.short_on);
-                    Main.shortLightsFlag = true;
-                    break;
-            }
+
         } catch (IOException e) {
             Toast.makeText(getActivity(), "Can't open file", Toast.LENGTH_SHORT).show();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+        
 
-        TextView fContent = (TextView) rootView.findViewById(R.id.fileContent);
-        fContent.setText("FileContent: \n" + obj);
+        return text;
 
     }
 
@@ -143,9 +128,29 @@ public class ProgrammingFragment extends Fragment {
         programsConfig.put("state", "asd");
         programsConfig.put("condition", "light");
 
-
         JSONObject jsonObject = new JSONObject(programsConfig);
         String jsonString = jsonObject.toString();
         fileWrite("newProgram.json", jsonString);
+
+        String condition = "";
+        String action = "";
+        JSONObject obj = null;
+
+        try {
+            obj = new JSONObject(fileRead("newProgram.json"));
+            action = (String) obj.get("action");
+            condition = (String) obj.get("condition");
+            switch (condition) {
+                case "light":
+                    Main.sendMessage("n");
+                    Main.carLights.setBackgroundResource(R.drawable.short_on);
+                    Main.shortLightsFlag = true;
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
