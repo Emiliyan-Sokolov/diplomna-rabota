@@ -1,6 +1,7 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,19 +32,6 @@ public class ProgrammingFragment extends Fragment {
 
     HashMap<String, String> programsConfig = new HashMap<>();
 
-    public void fileWrite(String fileName, String text) {
-        try {
-            File file = new File(getActivity().getFilesDir().getPath(), fileName);
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(text);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     public void showFilesInDirectory(String filesType) {
         File programs[] = new File(getActivity().getFilesDir().getPath()).listFiles();
@@ -101,6 +89,16 @@ public class ProgrammingFragment extends Fragment {
     private void buttonInit() {
         buttonNew = (Button) rootView.findViewById(R.id.new_btn);
         buttonOpen = (Button) rootView.findViewById(R.id.open_btn);
+        buttonNew.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                SetupBlocksFragment setupBlocksFragment= new SetupBlocksFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, setupBlocksFragment)
+                        .commit();
+            }
+        });
         buttonOpen.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -122,7 +120,7 @@ public class ProgrammingFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         buttonInit();
-
+        /*
         programsConfig.put("action", "go_forward");
         programsConfig.put("another_option", "test");
         programsConfig.put("state", "asd");
@@ -151,6 +149,7 @@ public class ProgrammingFragment extends Fragment {
             e.printStackTrace();
         }
 
-
+*/
     }
+
 }
