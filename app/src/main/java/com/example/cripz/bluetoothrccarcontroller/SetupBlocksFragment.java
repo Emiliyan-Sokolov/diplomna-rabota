@@ -3,6 +3,7 @@ package com.example.cripz.bluetoothrccarcontroller;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +24,7 @@ public class SetupBlocksFragment extends Fragment {
 
     View rootView;
 
-    String action = "";
+    String action = "no_action";
     HashMap<String, String> programsConfig = new HashMap<>();
 
     @Nullable
@@ -60,7 +61,7 @@ public class SetupBlocksFragment extends Fragment {
         String[] actions = {"go_forward", "go_backward", "go_forward_right", "go_backward_right", "go_forward_left",
                 "go_backward_left", "lights_on", "lights_off", "stay"};
         new MaterialDialog.Builder(getActivity())
-                .title("Programs")
+                .title("Actions")
                 .items(actions)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
@@ -94,12 +95,24 @@ public class SetupBlocksFragment extends Fragment {
                                 action = "stay";
                                 break;
                         }
+                        programsConfig.put("action", action);
                     }
                 })
                 .show();
-        programsConfig.put("action", action);
     }
 
+    /* private void setEvent() {
+         String[] sensors = {"distance", "light"};
+         String[] signs = {"<",">","="};
+         boolean wrapInScrollView = true;
+         new MaterialDialog.Builder(getActivity())
+                 .title("Events")
+                 .customView(R.layout.events_view, wrapInScrollView)
+                 //.items(sensors) not works when custom view is set
+                 .neutralText("OK")
+                 .show();
+     }
+ */
     private void fileWrite(String fileName, String text) {
         try {
             File file = new File(getActivity().getFilesDir().getPath(), fileName);
@@ -120,8 +133,21 @@ public class SetupBlocksFragment extends Fragment {
                     setAction();
                     break;
                 case R.id.btn_event:
+                    //setEvent();
+                    break;
+                case R.id.btn_save:
+                    new MaterialDialog.Builder(getActivity())
+                            .inputType(InputType.TYPE_CLASS_TEXT)
+                            .input("Program name", "", new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    JSONObject jsonObject = new JSONObject(programsConfig);
+                                    String jsonString = jsonObject.toString();
+                                    fileWrite(input.toString() + ".json", jsonString);
+                                }
+                            }).show();
+                    break;
             }
         }
     }
-
 }
