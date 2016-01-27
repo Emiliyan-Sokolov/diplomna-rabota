@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -18,13 +20,16 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SetupBlocksFragment extends Fragment {
 
     View rootView;
 
-    String action = "no_action";
+    String selectedAction = "no_action";
+    String selectedCondition = "no_condition";
     HashMap<String, String> programsConfig = new HashMap<>();
 
     @Nullable
@@ -61,58 +66,74 @@ public class SetupBlocksFragment extends Fragment {
         String[] actions = {"go_forward", "go_backward", "go_forward_right", "go_backward_right", "go_forward_left",
                 "go_backward_left", "lights_on", "lights_off", "stay"};
         new MaterialDialog.Builder(getActivity())
-                .title("Actions")
+                .title("Select Action")
                 .items(actions)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         switch (which) {
                             case 0:
-                                action = "go_forward";
+                                selectedAction = "go_forward";
                                 break;
                             case 1:
-                                action = "go_backward";
+                                selectedAction = "go_backward";
                                 break;
                             case 2:
-                                action = "go_forward_right";
+                                selectedAction = "go_forward_right";
                                 break;
                             case 3:
-                                action = "go_backward_right";
+                                selectedAction = "go_backward_right";
                                 break;
                             case 4:
-                                action = "go_forward_left";
+                                selectedAction = "go_forward_left";
                                 break;
                             case 5:
-                                action = "go_backward_left";
+                                selectedAction = "go_backward_left";
                                 break;
                             case 6:
-                                action = "lights_on";
+                                selectedAction = "lights_on";
                                 break;
                             case 7:
-                                action = "lights_off";
+                                selectedAction = "lights_off";
                                 break;
                             case 8:
-                                action = "stay";
+                                selectedAction = "stay";
                                 break;
                         }
-                        programsConfig.put("action", action);
+                        programsConfig.put("action", selectedAction);
                     }
                 })
                 .show();
     }
 
-    /* private void setEvent() {
-         String[] sensors = {"distance", "light"};
-         String[] signs = {"<",">","="};
-         boolean wrapInScrollView = true;
-         new MaterialDialog.Builder(getActivity())
-                 .title("Events")
-                 .customView(R.layout.events_view, wrapInScrollView)
-                 //.items(sensors) not works when custom view is set
-                 .neutralText("OK")
-                 .show();
-     }
- */
+/*
+    private void setEvent() {
+        String[] sensors = {"distance", "light"};
+        String[] signs = {"<", ">", "="};
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(getActivity())
+                .title("Events")
+                .customView(R.layout.events_view, wrapInScrollView)
+                .neutralText("OK")
+                .show();
+    }
+*/
+
+    private void setCondition() {
+        final String[] conditions = {"Do action until event happens", "Wait for event to happen and then do action"};
+        new MaterialDialog.Builder(getActivity())
+                .title("Select Condition")
+                .items(conditions)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        selectedCondition = conditions[which];
+                        programsConfig.put("condition", selectedCondition);
+                    }
+                })
+                .show();
+    }
+
     private void fileWrite(String fileName, String text) {
         try {
             File file = new File(getActivity().getFilesDir().getPath(), fileName);
@@ -134,6 +155,9 @@ public class SetupBlocksFragment extends Fragment {
                     break;
                 case R.id.btn_event:
                     //setEvent();
+                    break;
+                case R.id.btn_condition:
+                    setCondition();
                     break;
                 case R.id.btn_save:
                     new MaterialDialog.Builder(getActivity())
