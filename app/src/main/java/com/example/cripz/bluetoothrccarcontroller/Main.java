@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -37,6 +38,7 @@ public class Main extends MenuActivity {
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
     private static Main mainInstance = null;
+    ImageView batteryView;
     private static HashMap<UUID, BluetoothGattCharacteristic> map = new HashMap<>();
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -76,6 +78,21 @@ public class Main extends MenuActivity {
             TextView light = (TextView) findViewById(R.id.lightId);
             bytesAsString = bytesAsString.split("l")[1];
             light.setText("Light: " + bytesAsString + "lux");
+        }else if(bytesAsString.contains("b")) {
+            bytesAsString = bytesAsString.split("b")[1];
+            setBatteryImage(Float.parseFloat(bytesAsString));
+        }
+    }
+
+    private void setBatteryImage(float voltage){
+        if(voltage > 3.60){
+            batteryView.setImageResource(R.drawable.battery_full);
+        }else if(voltage > 2.50){
+            batteryView.setImageResource(R.drawable.battery_mid);
+        }else if(voltage > 1.80){
+            batteryView.setImageResource(R.drawable.battery_low);
+        }else if(voltage < 1.80){
+            batteryView.setImageResource(R.drawable.battery_empty);
         }
     }
 
@@ -120,6 +137,8 @@ public class Main extends MenuActivity {
         setSupportActionBar(toolbar);
         mainInstance = this;
         initializeCarLightsButton();
+        batteryView = (ImageView)findViewById(R.id.batteryId);
+        //batteryView.setBackgroundResource(R.drawable.battery_full);
         Intent intent = getIntent();
         manager = getSupportFragmentManager();
         startCurrentMode(getCurrentMode());
