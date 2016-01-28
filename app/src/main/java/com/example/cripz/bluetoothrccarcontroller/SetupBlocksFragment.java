@@ -10,8 +10,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -24,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SetupBlocksFragment extends Fragment {
+public class SetupBlocksFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     View rootView;
 
@@ -106,18 +111,44 @@ public class SetupBlocksFragment extends Fragment {
                 .show();
     }
 
-/*
+
     private void setEvent() {
-        String[] sensors = {"distance", "light"};
-        String[] signs = {"<", ">", "="};
+       // String[] sensors = {"distance", "light"};
+       // String[] signs = {"<", ">", "="};
         boolean wrapInScrollView = true;
-        new MaterialDialog.Builder(getActivity())
+
+        MaterialDialog.Builder md=new MaterialDialog.Builder(getActivity());
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        final View stdView = factory.inflate(R.layout.events_view, null);
+        Spinner spinner = (Spinner)stdView.findViewById(R.id.spinner);
+        Spinner spinner2 = (Spinner)stdView.findViewById(R.id.spinner2);
+        EditText et = (EditText)stdView.findViewById(R.id.editText);
+
+        spinner.setOnItemSelectedListener(this);
+        List<String>sensor = new ArrayList<String>();
+        sensor.add("distance");
+        sensor.add("light");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, sensor);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+
+        md.title("myTitle")
+                .customView(stdView, wrapInScrollView)
+                .autoDismiss(false)
+                //.positiveText(button)
+                .build()
+                .show();
+
+        /*new MaterialDialog.Builder(getActivity())
                 .title("Events")
                 .customView(R.layout.events_view, wrapInScrollView)
                 .neutralText("OK")
                 .show();
+         */
     }
-*/
+
 
     private void setCondition() {
         final String[] conditions = {"Do action until event happens", "Wait for event to happen and then do action"};
@@ -146,6 +177,16 @@ public class SetupBlocksFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     public class MyClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -154,7 +195,7 @@ public class SetupBlocksFragment extends Fragment {
                     setAction();
                     break;
                 case R.id.btn_event:
-                    //setEvent();
+                    setEvent();
                     break;
                 case R.id.btn_condition:
                     setCondition();

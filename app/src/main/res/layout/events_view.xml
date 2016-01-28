@@ -4,19 +4,19 @@
     android:layout_height="match_parent">
 
     <Spinner
-        android:layout_width="140dp"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
         android:layout_gravity="left|center_vertical" />
 
     <Spinner
-        android:layout_width="148dp"
+        android:layout_width="97dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinner2"
         android:layout_gravity="center" />
 
     <EditText
-        android:layout_width="163dp"
+        android:layout_width="87dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
