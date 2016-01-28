@@ -1,5 +1,6 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -37,9 +38,18 @@ public class Devices extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.devices_activity);
+        int currentOrientation = this.getResources().getConfiguration().orientation;
+        if(currentOrientation==Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.devices_activity_portrait_mode);
+        }else if(currentOrientation==Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.devices_activity_landscape_mode);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        }
 
         //checks if the device supports BLE
         if (!getPackageManager().hasSystemFeature(
@@ -72,6 +82,24 @@ public class Devices extends MenuActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.devices_activity_portrait_mode);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.devices_activity_landscape_mode);
+
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        }
     }
 
     public void buildRoundProcessDialog(Context mContext) {

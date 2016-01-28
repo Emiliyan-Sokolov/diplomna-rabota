@@ -17,22 +17,21 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Devices"
-            android:screenOrientation="portrait">
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Main"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"/>
 
         <service
             android:name=".RBLService"
             android:enabled="true" />
 
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity"/>
     </application>
 
 </manifest>
