@@ -1,5 +1,6 @@
 package com.example.cripz.bluetoothrccarcontroller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONObject;
@@ -35,7 +37,11 @@ public class SetupBlocksFragment extends Fragment implements AdapterView.OnItemS
 
     String selectedAction = "no_action";
     String selectedCondition = "no_condition";
+    EditText et;
     HashMap<String, String> programsConfig = new HashMap<>();
+    List<String>sensor = new ArrayList<>();
+    List<String>signs = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -122,31 +128,57 @@ public class SetupBlocksFragment extends Fragment implements AdapterView.OnItemS
         final View stdView = factory.inflate(R.layout.events_view, null);
         Spinner spinner = (Spinner)stdView.findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner)stdView.findViewById(R.id.spinner2);
-        EditText et = (EditText)stdView.findViewById(R.id.editText);
+        et = (EditText)stdView.findViewById(R.id.editText);
 
         spinner.setOnItemSelectedListener(this);
-        List<String>sensor = new ArrayList<String>();
+        spinner2.setOnItemSelectedListener(this);
+
         sensor.add("distance");
         sensor.add("light");
+        signs.add("=");
+        signs.add("<");
+        signs.add(">");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, sensor);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
 
 
-        md.title("myTitle")
+        ArrayAdapter<String> sensorAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, sensor);
+        sensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(sensorAdapter);
+
+        ArrayAdapter<String> signAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, signs);
+        signAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(signAdapter);
+
+
+
+        md.title("Event options")
                 .customView(stdView, wrapInScrollView)
-                .autoDismiss(false)
-                //.positiveText(button)
-                .build()
+                .positiveText("OK")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        programsConfig.put("sensorValue", et.getText().toString());
+                    }
+                })
                 .show();
 
-        /*new MaterialDialog.Builder(getActivity())
-                .title("Events")
-                .customView(R.layout.events_view, wrapInScrollView)
-                .neutralText("OK")
-                .show();
-         */
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch(parent.getId()){
+            case R.id.spinner:
+                programsConfig.put("sensorType",sensor.get(position) );
+                break;
+            case R.id.spinner2:
+                programsConfig.put("sensorSign",signs.get(position) );
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 
@@ -175,16 +207,6 @@ public class SetupBlocksFragment extends Fragment implements AdapterView.OnItemS
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     public class MyClickListener implements View.OnClickListener {

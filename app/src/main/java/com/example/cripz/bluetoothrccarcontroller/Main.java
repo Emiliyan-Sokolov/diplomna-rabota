@@ -73,11 +73,11 @@ public class Main extends MenuActivity {
         if(bytesAsString.contains("d")){
             TextView distance = (TextView)findViewById(R.id.distanceId);
             bytesAsString = bytesAsString.split("d")[1];
-            distance.setText("Distance: " + bytesAsString + "cm");
+            distance.setText("Distance: " + bytesAsString + " cm");
         }else if(bytesAsString.contains("l")) {
             TextView light = (TextView) findViewById(R.id.lightId);
             bytesAsString = bytesAsString.split("l")[1];
-            light.setText("Light: " + bytesAsString + "lux");
+            light.setText("Light: " + bytesAsString + " lux");
         }else if(bytesAsString.contains("b")) {
             bytesAsString = bytesAsString.split("b")[1];
             setBatteryImage(Float.parseFloat(bytesAsString));
