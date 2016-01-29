@@ -70,17 +70,19 @@ public class Main extends MenuActivity {
             e.printStackTrace();
         }
 
-        if(bytesAsString.contains("d")){
-            TextView distance = (TextView)findViewById(R.id.distanceId);
-            bytesAsString = bytesAsString.split("d")[1];
-            distance.setText("Distance: " + bytesAsString + " cm");
-        }else if(bytesAsString.contains("l")) {
-            TextView light = (TextView) findViewById(R.id.lightId);
-            bytesAsString = bytesAsString.split("l")[1];
-            light.setText("Light: " + bytesAsString + " lux");
-        }else if(bytesAsString.contains("b")) {
-            bytesAsString = bytesAsString.split("b")[1];
-            setBatteryImage(Float.parseFloat(bytesAsString));
+        if(bytesAsString != null) {
+            if (bytesAsString.contains("d")) {
+                TextView distance = (TextView) findViewById(R.id.distanceId);
+                bytesAsString = bytesAsString.split("d")[1];
+                distance.setText("Distance: " + bytesAsString + " cm");
+            } else if (bytesAsString.contains("l")) {
+                TextView light = (TextView) findViewById(R.id.lightId);
+                bytesAsString = bytesAsString.split("l")[1];
+                light.setText("Light: " + bytesAsString + " lux");
+            } else if (bytesAsString.contains("b")) {
+                bytesAsString = bytesAsString.split("b")[1];
+                setBatteryImage(Float.parseFloat(bytesAsString));
+            }
         }
     }
 
@@ -138,13 +140,9 @@ public class Main extends MenuActivity {
         mainInstance = this;
         initializeCarLightsButton();
         batteryView = (ImageView)findViewById(R.id.batteryId);
-        //batteryView.setBackgroundResource(R.drawable.battery_full);
-        Intent intent = getIntent();
         manager = getSupportFragmentManager();
         startCurrentMode(getCurrentMode());
-
-        mDeviceAddress = intent.getStringExtra(Devices.EXTRA_DEVICE_ADDRESS);
-        mDeviceName = intent.getStringExtra(Devices.EXTRA_DEVICE_NAME);
+        mDeviceAddress = getIntent().getStringExtra(Devices.EXTRA_DEVICE_ADDRESS);
         Intent gattServiceIntent = new Intent(this, RBLService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }

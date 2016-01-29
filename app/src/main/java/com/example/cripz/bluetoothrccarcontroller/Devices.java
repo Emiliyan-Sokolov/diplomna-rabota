@@ -31,7 +31,6 @@ public class Devices extends MenuActivity {
     private MaterialDialog processDialog;
     public ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
     public static Devices devicesInstance = null;
-    public final static String EXTRA_DEVICE_NAME = "EXTRA_DEVICE_NAME";
     public final static String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
     private Intent intent;
 
@@ -142,10 +141,8 @@ public class Devices extends MenuActivity {
             builder.itemsCallback(new MaterialDialog.ListCallback() {
                 @Override
                 public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                    String name = devicesName[which];
                     String addr = devicesAddr[which];
                     intent = new Intent(Devices.this, Main.class);
-                    intent.putExtra(EXTRA_DEVICE_NAME, name);
                     intent.putExtra(EXTRA_DEVICE_ADDRESS, addr);
                 }
             });

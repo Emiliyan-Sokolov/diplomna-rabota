@@ -27,15 +27,43 @@ import java.util.HashMap;
 
 public class ProgrammingFragment extends Fragment {
     private View rootView;
-    private Button buttonNew;
-    private Button buttonOpen;
-
-    HashMap<String, String> programsConfig = new HashMap<>();
-
 
     public void showFilesInDirectory(String filesType) {
+        int jsonCounter = 0;
         File programs[] = new File(getActivity().getFilesDir().getPath()).listFiles();
-        if (programs.length > 0) {
+        for (File program : programs) {
+            if (program.getName().contains(filesType)) {
+                jsonCounter++;
+            }
+        }
+
+        if(jsonCounter > 0){
+            final String prList[] = new String[jsonCounter];
+            int arrayCounter = 0;
+            for(File program : programs){
+                if(program.getName().contains(filesType)){
+                    prList[arrayCounter] = program.getName();
+                    arrayCounter++;
+                }
+            }
+            new MaterialDialog.Builder(getActivity())
+                    .title("Programs")
+                    .items(prList)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            fileRead(prList[which]);
+                        }
+                    })
+                    .show();
+        } else {
+            new MaterialDialog.Builder(getActivity())
+                    .title("No available programs.")
+                    .positiveText("OK")
+                    .show();
+        }
+
+        /*
             final String prList[] = new String[programs.length];
             for (int i = 0; i < programs.length; i++) {
                 if (programs[i].getName().contains(filesType)) {
@@ -59,7 +87,7 @@ public class ProgrammingFragment extends Fragment {
                     .neutralText("OK")
                     .show();
         }
-
+        */
     }
 
     public String fileRead(String fileName) {
@@ -87,26 +115,23 @@ public class ProgrammingFragment extends Fragment {
     }
 
     private void buttonInit() {
-        buttonNew = (Button) rootView.findViewById(R.id.new_btn);
-        buttonOpen = (Button) rootView.findViewById(R.id.open_btn);
+        Button buttonNew = (Button) rootView.findViewById(R.id.new_btn);
+        Button buttonOpen = (Button) rootView.findViewById(R.id.open_btn);
         buttonNew.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                SetupBlocksFragment setupBlocksFragment= new SetupBlocksFragment();
+                SetupBlocksFragment setupBlocksFragment = new SetupBlocksFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, setupBlocksFragment)
                         .commit();
             }
         });
         buttonOpen.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 showFilesInDirectory(".json");
             }
         });
-
     }
 
     @Nullable
