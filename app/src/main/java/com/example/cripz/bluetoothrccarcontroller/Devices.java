@@ -76,7 +76,6 @@ public class Devices extends MenuActivity {
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // searchForAvailableDevices();
                 startActivity(intent);
                 finish();
             }
@@ -149,8 +148,15 @@ public class Devices extends MenuActivity {
         } else {
             builder.title("No available devices found.");
             builder.cancelable(true);
-            builder.neutralText("Exit");
-            builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
+            builder.positiveText("Retry");
+            builder.negativeText("Exit");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    searchForAvailableDevices();
+                }
+            });
+            builder.onNegative(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     finish();
