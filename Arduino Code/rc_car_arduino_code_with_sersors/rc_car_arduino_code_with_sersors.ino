@@ -142,6 +142,8 @@ void distance_sensor() {
   distance = (duration/2) / 29.1;
   dst ="d" + String(distance) + "    ";
   dst.toCharArray(buff,5);
+  //char buff[dst.length()];
+  //dst.toCharArray(buff,dst.length());
   Serial.print("Distance: ");
   Serial.print(dst);
   Serial.print(" cm");

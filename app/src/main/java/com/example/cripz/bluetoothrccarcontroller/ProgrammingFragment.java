@@ -52,7 +52,7 @@ public class ProgrammingFragment extends Fragment {
                     .itemsCallback(new MaterialDialog.ListCallback() {
                         @Override
                         public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                            fileRead(prList[which]);
+                           runProgram(prList[which]);
                         }
                     })
                     .show();
@@ -104,6 +104,8 @@ public class ProgrammingFragment extends Fragment {
                 text = text + "\n";
             }
             br.close();
+            
+            return text;
 
         } catch (IOException e) {
             Toast.makeText(getActivity(), "Can't open file", Toast.LENGTH_SHORT).show();
@@ -112,6 +114,49 @@ public class ProgrammingFragment extends Fragment {
 
         return text;
 
+    }
+    
+    private void runProgram(String file_string){
+        try {
+            JSONObject obj = new JSONObject(fileRead(file_string));
+           String action = (String) obj.get("action");
+           String condition = (String) obj.get("condition");
+            String sensorSign = (String) obj.get("sensorSign");
+            String sensorType = (String) obj.get("sensorType");
+            String sensorValue = (String) obj.get("sensorValue");
+
+
+            Log.d("fr","condition: " + condition);
+            Log.d("fr","action: " + action);
+            Log.d("fr","sensorSign: " + sensorSign);
+            Log.d("fr","sensorType: " + sensorType);
+            Log.d("fr","sensorValue: " + sensorValue);
+            Log.d("fr","-------lightInt: "  + ((Main)getActivity()).getLightValue() + " ---------");
+
+            if(condition.equals("Wait for event to happen and then do action")){
+                Log.d("fr","AAAAAAAAAAAAAAAAAAAA: cond1");
+                switch (sensorType){
+                    case "light":
+                        Log.d("fr","AAAAAAAAAAAAAAAAAAAA: light");
+                        break;
+                    case"distance":
+                        Log.d("fr","AAAAAAAAAAAAAAAAAAAA: distance");
+
+                        break;
+                }
+
+            }else if( condition.equals("Do action until event happens")){
+                Log.d("fr","AAAAAAAAAAAAAAAAAAAAAAAA: cond2");
+
+            }
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     private void buttonInit() {

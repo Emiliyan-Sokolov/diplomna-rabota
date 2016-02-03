@@ -34,6 +34,8 @@ public class Main extends MenuActivity {
     public static ImageButton carLights;
     public static Boolean shortLightsFlag = false;
     private Boolean longLightsFlag = false;
+    private int lightInt;
+    private int distanceInt;
     private String mDeviceName;
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
@@ -61,6 +63,14 @@ public class Main extends MenuActivity {
         }
     };
 
+    public int getDistanceValue(){
+        return distanceInt;
+    }
+
+    public int getLightValue(){
+        return lightInt;
+    }
+
     private void displayData(byte[] data) {
 
         String bytesAsString = null;
@@ -71,14 +81,17 @@ public class Main extends MenuActivity {
         }
 
         if(bytesAsString != null) {
+            Log.d("fr", "bytesAsString:  ");
             if (bytesAsString.contains("d")) {
                 TextView distance = (TextView) findViewById(R.id.distanceId);
                 bytesAsString = bytesAsString.split("d")[1];
                 distance.setText("Distance: " + bytesAsString + " cm");
+                distanceInt = Integer.parseInt(bytesAsString);
             } else if (bytesAsString.contains("l")) {
                 TextView light = (TextView) findViewById(R.id.lightId);
                 bytesAsString = bytesAsString.split("l")[1];
                 light.setText("Light: " + bytesAsString + " lux");
+                lightInt = Integer.parseInt(bytesAsString);
             } else if (bytesAsString.contains("b")) {
                 bytesAsString = bytesAsString.split("b")[1];
                 setBatteryImage(Float.parseFloat(bytesAsString));
