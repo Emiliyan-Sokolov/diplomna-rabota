@@ -133,39 +133,43 @@ void measure_battery() {
  
 void distance_sensor() {
   String dst;
-  char buff[5];
+  //char buff[5];
   int duration, distance;
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(1000); //pauses the program for 1 millisecond
   digitalWrite(trigPin, LOW);
+  
   duration = pulseIn(echoPin,HIGH);
   distance = (duration/2) / 29.1;
-  dst ="d" + String(distance) + "    ";
-  dst.toCharArray(buff,5);
-  //char buff[dst.length()];
-  //dst.toCharArray(buff,dst.length());
+  dst ="d" + String(distance);
+  
+  int buff_size = dst.length();
+  char buff[buff_size + 1];
+  
+  dst.toCharArray(buff,buff_size + 1);
+  ble_write_bytes((unsigned char *)buff, buff_size);
+  
   Serial.print("Distance: ");
   Serial.print(dst);
   Serial.print(" cm");
   Serial.print('\n');
-  //byte d = (byte)distance;
-  //ble_write(d);
-  ble_write_bytes((unsigned char *)buff, 4); 
+  
 }
 
 void light_sensor(){
-  String light;
-  char buff[6];
   uint16_t light_sen_lux = LightSensor.GetLightIntensity();// Get Lux value
-  light ="l" + String(light_sen_lux) + "    ";
-  light.toCharArray(buff, 6);
-  ble_write_bytes((unsigned char *)buff, 4);
+  String light ="l" + String(light_sen_lux);
+  
+  int buff_size = light.length();
+  char buff[buff_size + 1];
+  
+  light.toCharArray(buff, buff_size + 1);
+  ble_write_bytes((unsigned char *)buff, buff_size);
+  
   Serial.print("Light: ");
   Serial.print(light_sen_lux);
   Serial.print(" lux");
   Serial.print("\n");
-  //byte l = (byte)light_sen_lux;
- // ble_write(l);
 }
 
 void loop()
