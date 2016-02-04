@@ -81,12 +81,12 @@ public class Main extends MenuActivity {
         }
 
         if(bytesAsString != null) {
-            Log.d("fr", "bytesAsString:  ");
+           // Log.d("fr", "bytesAsString:  " + bytesAsString);
             if (bytesAsString.contains("d")) {
                 TextView distance = (TextView) findViewById(R.id.distanceId);
-                bytesAsString = bytesAsString.split("d")[1];
-                distance.setText("Distance: " + bytesAsString + " cm");
+                bytesAsString = bytesAsString.split("d")[1].split("l")[0];
                 distanceInt = Integer.parseInt(bytesAsString);
+                distance.setText("Distance: " + bytesAsString + " cm");
             } else if (bytesAsString.contains("l")) {
                 TextView light = (TextView) findViewById(R.id.lightId);
                 bytesAsString = bytesAsString.split("l")[1];

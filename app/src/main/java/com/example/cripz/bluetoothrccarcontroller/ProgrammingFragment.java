@@ -115,6 +115,69 @@ public class ProgrammingFragment extends Fragment {
         return text;
 
     }
+
+    private void doAction(String file_string,String action ){
+        switch(action){
+            case "go_forward":
+                Main.sendMessage("f"); //go forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("j"); //stop right
+                break;
+            case "go_backward":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("b"); //go backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("j"); //stop right
+                break;
+            case "go_forward_right":
+                Main.sendMessage("f"); //go forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("r"); //go right
+                break;
+            case "go_forward_left":
+                Main.sendMessage("f"); //go forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("l"); //go left
+                Main.sendMessage("j"); //stop right
+                break;
+            case "go_backward_right":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("b"); //go backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("r"); //go right
+                break;
+            case "go_backward_left":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("b"); //go backward
+                Main.sendMessage("l"); //go left
+                Main.sendMessage("j"); //stop right
+                break;
+            case "stay":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("j"); //stop right
+                break;
+            case "lights_on":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("j"); //stop right
+                Main.sendMessage("n"); //lights_on
+                break;
+            case  "lights_off":
+                Main.sendMessage("k"); //stop forward
+                Main.sendMessage("g"); //stop backward
+                Main.sendMessage("h"); //stop left
+                Main.sendMessage("j"); //stop right
+                Main.sendMessage("v"); //lights_off
+
+        }
+
+
+    }
     
     private void runProgram(String file_string){
         try {
@@ -124,6 +187,9 @@ public class ProgrammingFragment extends Fragment {
             String sensorSign = (String) obj.get("sensorSign");
             String sensorType = (String) obj.get("sensorType");
             String sensorValue = (String) obj.get("sensorValue");
+            int sensorValueInt = Integer.parseInt(sensorValue);
+            int realTimeDistance = ((Main)getActivity()).getDistanceValue();
+            int realTimeLight = ((Main)getActivity()).getLightValue();
 
 
             Log.d("fr","condition: " + condition);
@@ -131,24 +197,8 @@ public class ProgrammingFragment extends Fragment {
             Log.d("fr","sensorSign: " + sensorSign);
             Log.d("fr","sensorType: " + sensorType);
             Log.d("fr","sensorValue: " + sensorValue);
-            Log.d("fr","-------lightInt: "  + ((Main)getActivity()).getLightValue() + " ---------");
-
-            if(condition.equals("Wait for event to happen and then do action")){
-                Log.d("fr","AAAAAAAAAAAAAAAAAAAA: cond1");
-                switch (sensorType){
-                    case "light":
-                        Log.d("fr","AAAAAAAAAAAAAAAAAAAA: light");
-                        break;
-                    case"distance":
-                        Log.d("fr","AAAAAAAAAAAAAAAAAAAA: distance");
-
-                        break;
-                }
-
-            }else if( condition.equals("Do action until event happens")){
-                Log.d("fr","AAAAAAAAAAAAAAAAAAAAAAAA: cond2");
-
-            }
+            Log.d("fr","-------DistanceInt: "  + ((Main)getActivity()).getDistanceValue() + " ---------");
+            Log.d("fr","-------LightInt: "  + ((Main)getActivity()).getLightValue() + " ---------");
 
 
 
