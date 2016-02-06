@@ -147,7 +147,7 @@ public class Devices extends MenuActivity {
             });
         } else {
             builder.title("No available devices found.");
-            builder.cancelable(true);
+            builder.cancelable(false);
             builder.positiveText("Retry");
             builder.negativeText("Exit");
             builder.onPositive(new MaterialDialog.SingleButtonCallback() {

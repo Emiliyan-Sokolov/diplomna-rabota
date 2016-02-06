@@ -19,13 +19,14 @@ BH1750FVI LightSensor;
 #define left_headlight 9
 #define right_headlight 3
 #define stop_lights 4
-#define battery_sensor A2
+#define battery A2
 
 // ThreadController that will controll all threads
 ThreadController controll = ThreadController();
 
 Thread distanceThread = Thread();
 Thread lightThread = Thread();
+Thread batteryThread = Thread();
 
 void setup()
 {
@@ -57,20 +58,19 @@ void setup()
   pinMode(left_headlight, OUTPUT);
   pinMode(right_headlight, OUTPUT);
   pinMode(stop_lights, OUTPUT);
-  pinMode(battery_sensor, INPUT);
+  pinMode(battery, INPUT);
   distanceThread.onRun(distance_sensor);
   distanceThread.setInterval(500);
   lightThread.onRun(light_sensor);
   lightThread.setInterval(300);
+  batteryThread.onRun(measure_battery);
+  batteryThread.setInterval(3000);
   controll.add(&distanceThread);
   controll.add(&lightThread);
+  controll.add(&batteryThread);
   
   ble_begin();
 }
-
-unsigned char val;
-unsigned int loop_count = 0;
-int light_sen;
 
 void go_forward() {
   digitalWrite(forward, HIGH);
@@ -123,12 +123,19 @@ void car_lights_off() {
 }
 
 void measure_battery() {
-  int sensor_value = analogRead(battery_sensor);
+  int sensor_value = analogRead(battery);
   float voltage = sensor_value * (5.0 / 1023.0); // converting sensor value to voltage
-  Serial.print("\n");
-  Serial.print("Battery Voltage: ");
-  Serial.print(voltage);
-  Serial.print("\n");
+  String str ="b" + String(voltage);
+  int buff_size = str.length();
+  char buff[buff_size + 1];
+  
+  str.toCharArray(buff, buff_size + 1);
+  ble_write_bytes((unsigned char *)buff, buff_size);
+  
+ // Serial.print("\n");
+  //Serial.print("Battery Voltage: ");
+  //Serial.print(voltage);
+ // Serial.print("\n");
 }
  
 void distance_sensor() {
@@ -149,10 +156,10 @@ void distance_sensor() {
   dst.toCharArray(buff,buff_size + 1);
   ble_write_bytes((unsigned char *)buff, buff_size);
   
-  Serial.print("Distance: ");
-  Serial.print(dst);
-  Serial.print(" cm");
-  Serial.print('\n');
+  //Serial.print("Distance: ");
+  //Serial.print(dst);
+  //Serial.print(" cm");
+ // Serial.print('\n');
   
 }
 
@@ -166,18 +173,16 @@ void light_sensor(){
   light.toCharArray(buff, buff_size + 1);
   ble_write_bytes((unsigned char *)buff, buff_size);
   
-  Serial.print("Light: ");
-  Serial.print(light_sen_lux);
-  Serial.print(" lux");
-  Serial.print("\n");
+  //Serial.print("Light: ");
+  //Serial.print(light_sen_lux);
+  //Serial.print(" lux");
+  //Serial.print("\n");
 }
 
 void loop()
 {
   if (ble_available())
   {
-    //ble_write(val); //sends data to android device (one char)
-    //ble_read(); //receives data from android device (one char)
     switch(ble_read()){
       case 'f': go_forward();
       break;
@@ -205,6 +210,5 @@ void loop()
   }
   ble_do_events();
   controll.run();
-  measure_battery();
 }
 

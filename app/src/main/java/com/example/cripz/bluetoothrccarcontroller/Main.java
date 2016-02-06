@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,7 +35,6 @@ public class Main extends MenuActivity {
     private Boolean longLightsFlag = false;
     private int lightInt;
     private int distanceInt;
-    private String mDeviceName;
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
     private static Main mainInstance = null;
@@ -154,10 +152,11 @@ public class Main extends MenuActivity {
         initializeCarLightsButton();
         batteryView = (ImageView)findViewById(R.id.batteryId);
         manager = getSupportFragmentManager();
-        startCurrentMode(getCurrentMode());
         mDeviceAddress = getIntent().getStringExtra(Devices.EXTRA_DEVICE_ADDRESS);
         Intent gattServiceIntent = new Intent(this, RBLService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        startCurrentMode(getCurrentMode());
+
     }
 
     private void initializeCarLightsButton() {
