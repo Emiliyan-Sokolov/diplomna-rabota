@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -35,6 +36,7 @@ public class Main extends MenuActivity {
     private Boolean longLightsFlag = false;
     private int lightInt;
     private int distanceInt;
+    private String mDeviceName;
     private String mDeviceAddress;
     private static RBLService mBluetoothLeService;
     private static Main mainInstance = null;
@@ -82,14 +84,14 @@ public class Main extends MenuActivity {
            // Log.d("fr", "bytesAsString:  " + bytesAsString);
             if (bytesAsString.contains("d")) {
                 TextView distance = (TextView) findViewById(R.id.distanceId);
-                bytesAsString = bytesAsString.split("d")[1].split("l")[0];
-                distanceInt = Integer.parseInt(bytesAsString);
+                bytesAsString = bytesAsString.split("d")[1];
+                //distanceInt = Integer.parseInt(bytesAsString);
                 distance.setText("Distance: " + bytesAsString + " cm");
             } else if (bytesAsString.contains("l")) {
                 TextView light = (TextView) findViewById(R.id.lightId);
                 bytesAsString = bytesAsString.split("l")[1];
                 light.setText("Light: " + bytesAsString + " lux");
-                lightInt = Integer.parseInt(bytesAsString);
+                //lightInt = Integer.parseInt(bytesAsString);
             } else if (bytesAsString.contains("b")) {
                 bytesAsString = bytesAsString.split("b")[1];
                 setBatteryImage(Float.parseFloat(bytesAsString));
@@ -149,14 +151,13 @@ public class Main extends MenuActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         mainInstance = this;
-        initializeCarLightsButton();
-        batteryView = (ImageView)findViewById(R.id.batteryId);
-        manager = getSupportFragmentManager();
         mDeviceAddress = getIntent().getStringExtra(Devices.EXTRA_DEVICE_ADDRESS);
         Intent gattServiceIntent = new Intent(this, RBLService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        initializeCarLightsButton();
+        batteryView = (ImageView)findViewById(R.id.batteryId);
+        manager = getSupportFragmentManager();
         startCurrentMode(getCurrentMode());
-
     }
 
     private void initializeCarLightsButton() {
