@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -80,19 +81,22 @@ public class Main extends MenuActivity {
         }
 
         if(bytesAsString != null) {
-           // Log.d("fr", "bytesAsString:  " + bytesAsString);
+            //Log.d("fr", "bytesAsString:  " + bytesAsString);
             if (bytesAsString.contains("d")) {
                 TextView distance = (TextView) findViewById(R.id.distanceId);
-                bytesAsString = bytesAsString.split("d")[1];
+                bytesAsString = bytesAsString.split("d")[1].split(" ")[0];
+                Log.d("fr", "Distance:  " + bytesAsString);
                 //distanceInt = Integer.parseInt(bytesAsString);
                 distance.setText("Distance: " + bytesAsString + " cm");
             } else if (bytesAsString.contains("l")) {
                 TextView light = (TextView) findViewById(R.id.lightId);
-                bytesAsString = bytesAsString.split("l")[1];
+                bytesAsString = bytesAsString.split("l")[1].split(" ")[0];
+                Log.d("fr", "Light:  " + bytesAsString);
                 light.setText("Light: " + bytesAsString + " lux");
                 //lightInt = Integer.parseInt(bytesAsString);
             } else if (bytesAsString.contains("b")) {
-                bytesAsString = bytesAsString.split("b")[1];
+                bytesAsString = bytesAsString.split("b")[1].split(" ")[0];
+                Log.d("fr", "Battery:  " + bytesAsString);
                 setBatteryImage(Float.parseFloat(bytesAsString));
             }
         }

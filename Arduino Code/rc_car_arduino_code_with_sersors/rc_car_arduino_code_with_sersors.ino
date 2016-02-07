@@ -125,7 +125,7 @@ void car_lights_off() {
 void measure_battery() {
   int sensor_value = analogRead(battery);
   float voltage = sensor_value * (5.0 / 1023.0); // converting sensor value to voltage
-  String str ="b" + String(voltage);
+  String str ="b" + String(voltage) + " ";
   int buff_size = str.length();
   char buff[buff_size + 1];
   
@@ -148,7 +148,7 @@ void distance_sensor() {
   
   duration = pulseIn(echoPin,HIGH);
   distance = (duration/2) / 29.1;
-  dst ="d" + String(distance);
+  dst ="d" + String(distance) + " ";
   
   int buff_size = dst.length();
   char buff[buff_size + 1];
@@ -165,7 +165,7 @@ void distance_sensor() {
 
 void light_sensor(){
   uint16_t light_sen_lux = LightSensor.GetLightIntensity();// Get Lux value
-  String light ="l" + String(light_sen_lux);
+  String light ="l" + String(light_sen_lux) + " ";
   
   int buff_size = light.length();
   char buff[buff_size + 1];
