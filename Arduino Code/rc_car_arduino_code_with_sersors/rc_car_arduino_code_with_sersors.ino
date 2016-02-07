@@ -18,7 +18,7 @@ BH1750FVI LightSensor;
 #define echoPin A1
 #define left_headlight 9
 #define right_headlight 3
-#define stop_lights 4
+#define tail_lights 4
 #define battery A2
 
 // ThreadController that will controll all threads
@@ -57,7 +57,7 @@ void setup()
   pinMode(left, OUTPUT);
   pinMode(left_headlight, OUTPUT);
   pinMode(right_headlight, OUTPUT);
-  pinMode(stop_lights, OUTPUT);
+  pinMode(tail_lights, OUTPUT);
   pinMode(battery, INPUT);
   distanceThread.onRun(distance_sensor);
   distanceThread.setInterval(500);
@@ -107,19 +107,19 @@ void stop_backward() {
 void car_short_lights_on() {
   analogWrite(left_headlight, 40);
   analogWrite(right_headlight, 40);
-  digitalWrite(stop_lights, HIGH);
+  digitalWrite(tail_lights, HIGH);
 }
 
 void car_long_lights_on() {
   analogWrite(left_headlight, 255);
   analogWrite(right_headlight, 255);
-  digitalWrite(stop_lights, HIGH);
+  digitalWrite(tail_lights, HIGH);
 }
 
 void car_lights_off() {
    analogWrite(left_headlight, 0);
    analogWrite(right_headlight, 0);
-   digitalWrite(stop_lights, LOW);
+   digitalWrite(tail_lights, LOW);
 }
 
 void measure_battery() {
@@ -181,32 +181,29 @@ void light_sensor(){
 
 void loop()
 {
-  if (ble_available())
-  {
-    switch(ble_read()){
-      case 'f': go_forward();
-      break;
-      case 'b': go_backward();
-      break;
-      case 'r': go_right();
-      break;
-      case 'l': go_left();
-      break;
-      case 'k': stop_forward();
-      break;
-      case 'g': stop_backward();
-      break;
-      case 'j': stop_right();
-      break;
-      case 'h': stop_left();
-      break; 
-      case 'n': car_short_lights_on();
-      break;
-      case 'm': car_long_lights_on();
-      break;
-      case 'v': car_lights_off();
-      break;
-    }
+  switch(ble_read()){
+    case 'f': go_forward();
+    break;
+    case 'b': go_backward();
+    break;
+    case 'r': go_right();
+    break;
+    case 'l': go_left();
+    break;
+    case 'k': stop_forward();
+    break;
+    case 'g': stop_backward();
+    break;
+    case 'j': stop_right();
+    break;
+    case 'h': stop_left();
+    break; 
+    case 'n': car_short_lights_on();
+    break;
+    case 'm': car_long_lights_on();
+    break;
+    case 'v': car_lights_off();
+    break;
   }
   ble_do_events();
   controll.run();
