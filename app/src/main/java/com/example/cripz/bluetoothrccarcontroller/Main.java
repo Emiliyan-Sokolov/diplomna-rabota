@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -100,13 +99,13 @@ public class Main extends MenuActivity {
     }
 
     private void setBatteryImage(float voltage){
-        if(voltage > 3.60){
+        if(voltage > 4.00){
             batteryView.setImageResource(R.drawable.battery_full);
-        }else if(voltage > 2.50){
+        }else if(voltage > 2.80){
             batteryView.setImageResource(R.drawable.battery_mid);
-        }else if(voltage > 1.80){
+        }else if(voltage > 2.10){
             batteryView.setImageResource(R.drawable.battery_low);
-        }else if(voltage < 1.80){
+        }else if(voltage < 2.10){
             batteryView.setImageResource(R.drawable.battery_empty);
         }
     }
