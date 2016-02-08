@@ -47,11 +47,14 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         }
     }
 
+    private void sendMessage(String msg) {
+        ((Main)(getActivity())).sendMessage(msg);
+    }
     private void stop(){
-        Main.sendMessage("k"); //stop forward
-        Main.sendMessage("g"); //stop backward
-        Main.sendMessage("h"); //stop left
-        Main.sendMessage("j"); //stop right
+        sendMessage("k"); //stop forward
+        sendMessage("g"); //stop backward
+        sendMessage("h"); //stop left
+        sendMessage("j"); //stop right
     }
 
     @Override
@@ -77,10 +80,10 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 state = "MOVING_FORWARD_LEFT";
                 if(!lastState.equals(state)){
                     stateText.setText(state);
-                    Main.sendMessage("f"); //go forward
-                    Main.sendMessage("g"); //stop backward
-                    Main.sendMessage("l"); //go left
-                    Main.sendMessage("j"); //stop right
+                    sendMessage("f"); //go forward
+                    sendMessage("g"); //stop backward
+                    sendMessage("l"); //go left
+                    sendMessage("j"); //stop right
                     lastState = state;
                 }
 
@@ -88,20 +91,20 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 state = "MOVING_FORWARD_RIGHT";
                 if(!lastState.equals(state)){
                     stateText.setText(state);
-                    Main.sendMessage("f"); //go forward
-                    Main.sendMessage("g"); //stop backward
-                    Main.sendMessage("h"); //stop left
-                    Main.sendMessage("r"); //go right
+                    sendMessage("f"); //go forward
+                    sendMessage("g"); //stop backward
+                    sendMessage("h"); //stop left
+                    sendMessage("r"); //go right
                     lastState = state;
                 }
             }else{
                 state = "MOVING_FORWARD";
                 if(!lastState.equals(state)) {
                     stateText.setText(state);
-                    Main.sendMessage("f"); //go forward
-                    Main.sendMessage("g"); //stop backward
-                    Main.sendMessage("h"); //stop left
-                    Main.sendMessage("j"); //stop right
+                    sendMessage("f"); //go forward
+                    sendMessage("g"); //stop backward
+                    sendMessage("h"); //stop left
+                    sendMessage("j"); //stop right
                     lastState = state;
                 }
             }
@@ -111,10 +114,10 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 state = "MOVING_BACKWARD_LEFT";
                 if(!lastState.equals(state)){
                     stateText.setText(state);
-                    Main.sendMessage("k"); //stop forward
-                    Main.sendMessage("b"); //go backward
-                    Main.sendMessage("l"); //go left
-                    Main.sendMessage("j"); //stop right
+                    sendMessage("k"); //stop forward
+                    sendMessage("b"); //go backward
+                    sendMessage("l"); //go left
+                    sendMessage("j"); //stop right
                     lastState = state;
                 }
 
@@ -122,20 +125,20 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 state = "MOVING_BACKWARD_RIGHT";
                 if(!lastState.equals(state)){
                     stateText.setText(state);
-                    Main.sendMessage("k"); //stop forward
-                    Main.sendMessage("b"); //go backward
-                    Main.sendMessage("h"); //stop left
-                    Main.sendMessage("r"); //go right
+                    sendMessage("k"); //stop forward
+                    sendMessage("b"); //go backward
+                    sendMessage("h"); //stop left
+                    sendMessage("r"); //go right
                     lastState = state;
                 }
             }else {
                 state = "MOVING_BACKWARD";
                 if (!lastState.equals(state)) {
                     stateText.setText(state);
-                    Main.sendMessage("k"); //stop forward
-                    Main.sendMessage("b"); //go backward
-                    Main.sendMessage("h"); //stop left
-                    Main.sendMessage("j"); //stop right
+                    sendMessage("k"); //stop forward
+                    sendMessage("b"); //go backward
+                    sendMessage("h"); //stop left
+                    sendMessage("j"); //stop right
                     lastState = state;
                 }
             }
@@ -167,11 +170,11 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     @Override
     public void onStop() {
         super.onStop();
-        Main.sendMessage("k");
-        Main.sendMessage("g");
-        Main.sendMessage("j");
-        Main.sendMessage("h");
-        Main.sendMessage("v");
+        sendMessage("k");
+        sendMessage("g");
+        sendMessage("j");
+        sendMessage("h");
+        sendMessage("v");
         senMng.unregisterListener(this, acc);
     }
 

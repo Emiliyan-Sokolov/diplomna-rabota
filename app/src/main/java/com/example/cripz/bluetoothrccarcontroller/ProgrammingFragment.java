@@ -27,7 +27,10 @@ import java.util.HashMap;
 
 public class ProgrammingFragment extends Fragment {
     private View rootView;
-
+    
+    private void sendMessage(String msg) {
+        ((Main)(getActivity())).sendMessage(msg);
+    }
     public void showFilesInDirectory(String filesType) {
         int jsonCounter = 0;
         File programs[] = new File(getActivity().getFilesDir().getPath()).listFiles();
@@ -119,60 +122,60 @@ public class ProgrammingFragment extends Fragment {
     private void doAction(String file_string,String action ){
         switch(action){
             case "go_forward":
-                Main.sendMessage("f"); //go forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("j"); //stop right
+                sendMessage("f"); //go forward
+                sendMessage("g"); //stop backward
+                sendMessage("h"); //stop left
+                sendMessage("j"); //stop right
                 break;
             case "go_backward":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("b"); //go backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("j"); //stop right
+                sendMessage("k"); //stop forward
+                sendMessage("b"); //go backward
+                sendMessage("h"); //stop left
+                sendMessage("j"); //stop right
                 break;
             case "go_forward_right":
-                Main.sendMessage("f"); //go forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("r"); //go right
+                sendMessage("f"); //go forward
+                sendMessage("g"); //stop backward
+                sendMessage("h"); //stop left
+                sendMessage("r"); //go right
                 break;
             case "go_forward_left":
-                Main.sendMessage("f"); //go forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("l"); //go left
-                Main.sendMessage("j"); //stop right
+                sendMessage("f"); //go forward
+                sendMessage("g"); //stop backward
+                sendMessage("l"); //go left
+                sendMessage("j"); //stop right
                 break;
             case "go_backward_right":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("b"); //go backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("r"); //go right
+                sendMessage("k"); //stop forward
+                sendMessage("b"); //go backward
+                sendMessage("h"); //stop left
+                sendMessage("r"); //go right
                 break;
             case "go_backward_left":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("b"); //go backward
-                Main.sendMessage("l"); //go left
-                Main.sendMessage("j"); //stop right
+                sendMessage("k"); //stop forward
+                sendMessage("b"); //go backward
+                sendMessage("l"); //go left
+                sendMessage("j"); //stop right
                 break;
             case "stay":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("j"); //stop right
+                sendMessage("k"); //stop forward
+                sendMessage("g"); //stop backward
+                sendMessage("h"); //stop left
+                sendMessage("j"); //stop right
                 break;
             case "lights_on":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("j"); //stop right
-                Main.sendMessage("n"); //lights_on
+                sendMessage("k"); //stop forward
+                sendMessage("g"); //stop backward
+                sendMessage("h"); //stop left
+                sendMessage("j"); //stop right
+                sendMessage("n"); //lights_on
                 break;
             case  "lights_off":
-                Main.sendMessage("k"); //stop forward
-                Main.sendMessage("g"); //stop backward
-                Main.sendMessage("h"); //stop left
-                Main.sendMessage("j"); //stop right
-                Main.sendMessage("v"); //lights_off
+                sendMessage("k"); //stop forward
+                sendMessage("g"); //stop backward
+                sendMessage("h"); //stop left
+                sendMessage("j"); //stop right
+                sendMessage("v"); //lights_off
 
         }
 
@@ -260,7 +263,7 @@ public class ProgrammingFragment extends Fragment {
             condition = (String) obj.get("condition");
             switch (condition) {
                 case "light":
-                    Main.sendMessage("n");
+                    sendMessage("n");
                     Main.carLights.setBackgroundResource(R.drawable.short_on);
                     Main.shortLightsFlag = true;
                     break;

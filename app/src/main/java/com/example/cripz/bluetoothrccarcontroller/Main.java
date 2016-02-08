@@ -140,7 +140,7 @@ public class Main extends MenuActivity {
         }
     };
 
-    protected static void sendMessage(String arg) {
+    protected void sendMessage(String arg) {
         BluetoothGattCharacteristic characteristic = map.get(RBLService.UUID_BLE_SHIELD_TX);
         characteristic.setValue(arg);
         mBluetoothLeService.writeCharacteristic(characteristic);

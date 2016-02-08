@@ -18,7 +18,7 @@ public class ControlsFragment extends Fragment {
     private ImageButton rightButton;
 
     private void sendMessage(String msg) {
-        Main.sendMessage(msg);
+        ((Main)(getActivity())).sendMessage(msg);
     }
 
     @Nullable
